@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EtatRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,7 +28,7 @@ class Etat
      * @ORM\Column(type="string", length=255)
      */
     private $etat;
-
+    
     public function getId(): ?int
     {
         return $this->id;
