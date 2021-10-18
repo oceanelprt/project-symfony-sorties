@@ -166,7 +166,6 @@ class Sortie
 
         return $this;
     }
-
     /**
      * @return Collection|Utilisateur[]
      */
