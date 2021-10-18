@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,17 +37,34 @@ class Sortie
     /**
      * @ORM\Column(type="date")
      */
-    private $date_cloture;
+    private $dateCloture;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $nombre_places;
+    private $nombrePlaces;
 
     /**
      * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="participants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $createur;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Utilisateur::class, inversedBy="sorties")
+     */
+    private $participants;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
+    
 
     public function getId(): ?int
     {
@@ -90,12 +109,12 @@ class Sortie
 
     public function getDateCloture(): ?\DateTimeInterface
     {
-        return $this->date_cloture;
+        return $this->dateCloture;
     }
 
-    public function setDateCloture(\DateTimeInterface $date_cloture): self
+    public function setDateCloture(\DateTimeInterface $dateCloture): self
     {
-        $this->date_cloture = $date_cloture;
+        $this->dateCloture = $dateCloture;
 
         return $this;
     }
@@ -105,9 +124,9 @@ class Sortie
         return $this->nombre_places;
     }
 
-    public function setNombrePlaces(int $nombre_places): self
+    public function setNombrePlaces(int $nombrePlaces): self
     {
-        $this->nombre_places = $nombre_places;
+        $this->$nombrePlaces = $nombrePlaces;
 
         return $this;
     }
@@ -120,6 +139,42 @@ class Sortie
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCreateur(): ?Utilisateur
+    {
+        return $this->createur;
+    }
+
+    public function setCreateur(?Utilisateur $createur): self
+    {
+        $this->createur = $createur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Utilisateur[]
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Utilisateur $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Utilisateur $participant): self
+    {
+        $this->participants->removeElement($participant);
 
         return $this;
     }
