@@ -69,6 +69,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sorties;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Ville::class)
+     */
+    private $ville;
+
+
     public function __construct()
     {
         $this->sortiesCreees = new ArrayCollection();
@@ -272,9 +278,21 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
     public function __toString(): string
     {
         return $this->getNom();
     }
 
+    public function getVille(): ?Ville
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?Ville $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
 }
