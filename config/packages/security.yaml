@@ -13,15 +13,15 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\Utilisateur
-                property: email
+                property: pseudo
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            lazy: true
-            provider: app_user_provider
-            custom_authenticator: App\Security\UtilisateurAuthenticator
+            form_login:
+                login_path: app_login
+                check_path: app_login
             logout:
                 path: app_logout
                 # where to redirect after logout
@@ -41,3 +41,6 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/sorties, roles: ROLE_USER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/inscription, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/logout, roles:  [IS_AUTHENTICATED_FULLY] }
