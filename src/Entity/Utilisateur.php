@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity(fields={"pseudo"}, message="Un compte avec ce pseudo existe déjà.")
  */
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -26,9 +26,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true, nullable=false)
-     * @Assert\Email(
-     *     message = "L'email n'est pas valide."
-     * )
+     * @Assert\Email(message = "L'email n'est pas valide.")
      */
     private $email;
 
