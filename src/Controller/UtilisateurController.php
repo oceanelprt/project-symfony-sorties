@@ -9,25 +9,20 @@
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\Routing\Annotation\Route;
-
+    /**
+    @Route("/utilisateur", name="info-utilisateur")
+    */
     class UtilisateurController extends AbstractController
     {
         /**
-         * @Route("/info-utilisateur/{id}", name="info-utilisateur")
+         * @Route("/{utilisateur}", requirements={"utilisateur"="\d+"}, name="info")
          * @param Request $request
          * @return Response
          */
-        public function userInformation(Request $request): Response
+        public function showUser(Request $request, Utilisateur $utilisateur):Response
         {
-            $repoUtilisateur = $this->getDoctrine()->getRepository(Utilisateur::class);
-            $repoVille = $this->getDoctrine()->getRepository(Ville::class);
-
-            $infoUser = $repoUtilisateur->find($request->get('id'));
-            $nomVille = $infoUser->getVille();
-
             return $this->render('utilisateur/user-information.html.twig', [
-                'infoUser' =>$infoUser,
-                'nomVille' =>$nomVille,
+                'utilisateur' => $utilisateur
             ]);
         }
     }
