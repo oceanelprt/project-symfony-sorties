@@ -138,7 +138,7 @@ class Sortie
 
     public function setNombrePlaces(int $nombrePlaces): self
     {
-        $this->$nombrePlaces = $nombrePlaces;
+        $this->nombrePlaces = $nombrePlaces;
 
         return $this;
     }

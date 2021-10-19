@@ -1,12 +1,20 @@
 {% block body %}
-    {% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
-        <ul class="nav justify-content-end">
+    <ul class="nav justify-content-end">
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ path('home') }}">S'inscrire</a>
+                <a class="nav-link active" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
+            </li>
+
+        {% else %}
+
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ path('app_register') }}">S'inscrire</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ path('login') }}">Se connecter</a>
+                <a class="nav-link active" aria-current="page" href="{{ path('app_login') }}">Se connecter</a>
             </li>
-        </ul>
-    {% endif %}
+
+        {% endif %}
+    </ul>
 {% endblock %}

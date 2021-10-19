@@ -6,6 +6,7 @@ use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -25,6 +26,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true, nullable=false)
+     * @Assert\Email(
+     *     message = "L'email n'est pas valide."
+     * )
      */
     private $email;
 
@@ -85,11 +89,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email): string
     {
         $this->email = $email;
 
-        return $this;
+        return $this->email;
     }
 
     /**
@@ -134,7 +138,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->pseudo;
     }
 
-    public function setPseudo(string $pseudo): string
+    public function setPseudo(string $pseudo): self
     {
         $this->pseudo = $pseudo;
 
@@ -149,7 +153,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): string
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -162,7 +166,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->nom;
     }
 
-    public function setNom(string $nom): string
+    public function setNom(string $nom): self
     {
         $this->nom = $nom;
 
@@ -175,7 +179,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): string
+    public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
 
@@ -188,7 +192,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->telephone;
     }
 
-    public function setTelephone(string $telephone): string
+    public function setTelephone(string $telephone): self
     {
         $this->telephone = $telephone;
 

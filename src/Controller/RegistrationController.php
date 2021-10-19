@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/inscription", name="app_register")
      */
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
@@ -38,8 +38,10 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
+        $errors = (string) $form->getErrors(true, false);
+
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'registrationForm' => $form->createView(), 'errors' => $errors
         ]);
     }
 }
