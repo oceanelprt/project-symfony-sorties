@@ -33,16 +33,16 @@
         {{ form_end(form) }}
         <table class="table">
             <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Date de la sortie</th>
-                    <th>Clôture</th>
-                    <th>Inscrits/Places</th>
-                    <th>Etat</th>
-                    <th>Inscrit</th>
-                    <th>Organisateur</th>
-                    <th>Actions</th>
-                </tr>
+            <tr>
+                <th>Nom</th>
+                <th>Date de la sortie</th>
+                <th>Clôture</th>
+                <th>Inscrits/Places</th>
+                <th>Etat</th>
+                <th>Inscrit</th>
+                <th>Organisateur</th>
+                <th>Actions</th>
+            </tr>
             </thead>
             <tbody>
             {% for sortie in sorties %}
@@ -55,8 +55,12 @@
                     <td></td>
                     <td>{{ sortie.createur.prenom }} {{ sortie.createur.nom }}</td>
                     <td>
-                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}" class="btn btn-primary">Voir</a>
-                        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Editer</a>
+                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}" class="btn btn-primary">Afficher</a>
+                        {% if app.user.id == sortie.createur.id %}
+                            <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Modifier</a>
+                        {% else %}
+                            <a href="#" class="btn btn-primary">S'inscrire</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}
