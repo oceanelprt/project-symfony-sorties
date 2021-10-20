@@ -11,6 +11,14 @@
                     <span class="navbar-text"><strong>Bonjour {{ app.user.prenom }} !</strong></span>
 
                     <li class="nav-item active">
+                        <a class="nav-link" aria-current="page" href="{{ path('home') }}">Accueil</a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" aria-current="page" href="{{ path('utilisateur_info', { 'utilisateur': app.user.id }) }}">Mon profil</a>
+                    </li>
+
+                    <li class="nav-item active">
                         <a class="nav-link" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
                     </li>
 
