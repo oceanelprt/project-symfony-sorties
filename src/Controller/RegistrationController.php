@@ -41,10 +41,8 @@ class RegistrationController extends AbstractController
             return $authenticator->authenticateUser($user, $formAuthenticator, $request);
         }
 
-        $errors = (string) $form->getErrors(true);
-
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(), 'errors' => $errors
+            'registrationForm' => $form->createView()
         ]);
     }
 }

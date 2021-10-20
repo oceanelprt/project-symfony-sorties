@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +22,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('pseudo')
-            ->add('email')
+            ->add('email', EmailType::class)
             ->add('nom')
             ->add('prenom')
             ->add('telephone')
@@ -56,7 +57,7 @@ class RegistrationFormType extends AbstractType
                 'query_builder' => function(EntityRepository $repository) {
                     return $repository->createQueryBuilder('qb')->orderBy('qb.nom', 'ASC');
                 },
-                'required' => false,
+                'required' => true,
             ])
         ;
     }
