@@ -1,32 +1,31 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <center>
-        <h1>{{ utilisateur.pseudo }}  </h1> </br></br>
+
+        <h1>{{ utilisateur.pseudo }}  </h1> <br/><br/>
         <div class="col-lg-4 col-md-6 form-group">
-            <label>Prénom : </label>
-            <input type="text" readonly="readonly" name="prenom" class="form-control" value="{{ utilisateur.prenom }}">
-            <div class="validate"></div>
+            <label for="prenom">Prénom : </label>
+            <input type="text" id="prenom" readonly="readonly" name="prenom" class="form-control" value="{{ utilisateur.prenom }}">
         </div>
         <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-            <label>Nom : </label>
-            <input type="email" readonly="readonly" name="nom" class="form-control" value="{{ utilisateur.nom }}">
-            <div class="validate"></div>
+            <label for="nom">Nom : </label>
+            <input type="text" id="nom" readonly="readonly" name="nom" class="form-control" value="{{ utilisateur.nom }}">
         </div>
         <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-            <label>Téléphone : </label>
-            <input type="text" readonly="readonly" name="tel" class="form-control"  value="{{ utilisateur.telephone }}">
-            <div class="validate"></div>
+            <label for="telephone">Téléphone : </label>
+            <input type="text" id="telephone" readonly="readonly" name="tel" class="form-control"  value="{{ utilisateur.telephone }}">
         </div>
         <div class="col-lg-4 col-md-6 form-group mt-3">
-            <label>Email : </label>
-            <input type="text" readonly="readonly" name="email" class="form-control" value="{{ utilisateur.email }}">
-            <div class="validate"></div>
+            <label for="email">Email : </label>
+            <input type="email" id="email" readonly="readonly" name="email" class="form-control" value="{{ utilisateur.email }}">
         </div>
         <div class="col-lg-4 col-md-6 form-group mt-3">
-            <label>Ville de rattachement : </label>
-            <input type="text" readonly="readonly" name="ville-attachement" class="form-control" value="{{ utilisateur.ville.nom }}">
-            <div class="validate"></div>
+            <label for="ville-attachement">Ville de rattachement : </label>
+            {% if(utilisateur.ville is not null) %}
+                <input type="text" id="ville-attachement" readonly="readonly" name="ville-attachement" class="form-control" value="{{ utilisateur.ville.nom }}">
+            {% else %}
+            <input type="text" id="ville-attachement" readonly="readonly" name="ville-attachement" class="form-control" value="Non renseigné">
+            {% endif %}
         </div>
-        </br><button align="center" onclick="location.href='{{path('home')}}'">Retour</button></center>
+        <br/><a href="{{ path('home') }}" class="btn btn-primary">Retour</a>
 {% endblock %}

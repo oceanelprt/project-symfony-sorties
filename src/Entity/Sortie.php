@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -31,11 +32,16 @@ class Sortie
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan("today")
      */
     private $date;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Expression(
+     *     "this.getDate() < this.getDateCloture()",
+     *     message="La date de cloture ne doit pas être antérieure à la date de la sortie"
+     * )
      */
     private $dateCloture;
 

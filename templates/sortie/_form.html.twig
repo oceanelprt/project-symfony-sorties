@@ -1,4 +1,24 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Sauvegarder') }}</button>
-{{ form_end(form) }}
+
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col align-self-center">
+
+                {{ form_start(form) }}
+                {{ form_row(form.nom) }}
+                {{ form_row(form.date) }}
+                {{ form_row(form.dateCloture) }}
+                {{ form_row(form.duree) }}
+                {{ form_row(form.description) }}
+                {{ form_row(form.nombrePlaces) }}
+                {{ form_row(form.lieu) }}
+                {{ form_row(form.etat) }}
+
+                <button type="submit" class="btn">Sauvegarde</button>
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
