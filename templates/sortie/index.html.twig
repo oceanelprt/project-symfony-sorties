@@ -3,6 +3,8 @@
 {% block title %}Sortie index{% endblock %}
 
 {% block body %}
+    <p>Date du jour : </p>{{ "now"|date("d/m/Y") }}
+    <p>Organisateur : </p>{{ app.user.prenom }}
     <h1>Sortie index</h1>
     {{ form(form) }}
     <table class="table">
@@ -35,7 +37,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucune sortie disponible</td>
             </tr>
         {% endfor %}
         </tbody>

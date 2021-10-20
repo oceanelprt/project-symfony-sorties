@@ -88,15 +88,14 @@ class SortieController extends AbstractController
             $filtre = $request->request->get('form');
             if($filtre) {
                 $utilisateurRepository = $this->getDoctrine()->getRepository(Utilisateur::class);
-                $userId = $utilisateurRepository->findOneBy(['pseudo' => $user]);
-                $userId = $userId->getId();
+                $utilisateur = $utilisateurRepository->findOneBy(['pseudo' => $user]);
+                $userId = $utilisateur->getId();
                 $sorties = $sortieRepository->findArticlesByFiltre($filtre, $userId);
             }
         } else {
             $sorties = $sortieRepository->findAll();
         }
         return $this->render('sortie/index.html.twig', [
-            'userName' => $user,
             'sorties' => $sorties,
             'form' => $form->createView(),
         ]);
