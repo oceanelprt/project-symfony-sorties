@@ -58,6 +58,7 @@ class SortieRepository extends ServiceEntityRepository
                     ->setParameter('user', $userId);
             }
         }
+        // TODO voir le fonctionnement du bouton "Sorties passées"
         /*
         if ($isPassee != null) {
             $qb->andWhere('s.date' )
