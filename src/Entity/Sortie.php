@@ -50,7 +50,7 @@ class Sortie
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="participants")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="sortieCreees")
      * @ORM\JoinColumn(nullable=false)
      */
     private $createur;
