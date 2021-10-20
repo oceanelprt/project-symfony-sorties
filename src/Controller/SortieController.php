@@ -90,7 +90,9 @@ class SortieController extends AbstractController
                 $utilisateurRepository = $this->getDoctrine()->getRepository(Utilisateur::class);
                 $utilisateur = $utilisateurRepository->findOneBy(['pseudo' => $user]);
                 $userId = $utilisateur->getId();
-                $sorties = $sortieRepository->findArticlesByFiltre($filtre, $userId);
+                $isOrganisateur = isset($filtre['isOrganisateur']) ? $filtre['isOrganisateur'] : null;
+                $isInscrit = isset($filtre['isInscrit']) ? $filtre['isInscrit'] : null;
+                $sorties = $sortieRepository->findSortiesByFiltre($filtre, $userId, $isOrganisateur, $isInscrit, $user);
             }
         } else {
             $sorties = $sortieRepository->findAll();

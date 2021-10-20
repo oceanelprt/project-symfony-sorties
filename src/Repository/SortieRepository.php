@@ -19,11 +19,14 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    public function findArticlesByFiltre($filtre, $userId)
+    public function findSortiesByFiltre($filtre, $userId, $isOrganisateur, $isInscrit, $user)
     {
-        $qb = $this->createQueryBuilder('s')
-            ->where('s.nom LIKE :key')
-            ->setParameter('key', '%'.$filtre['nom'].'%');
+        $qb = $this->createQueryBuilder('s');
+
+        if ($filtre['nom'] != '') {
+            $qb->where('s.nom LIKE :key')
+                ->setParameter('key', '%' . $filtre['nom'] . '%');
+        }
 
         if ($filtre['ville'] != '') {
             $qb->join('s.lieu', 'l', 'WITH', 'l.ville = :ville')
@@ -40,8 +43,14 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('dateFin', $filtre['fin']);
         }
 
-        if ($filtre['isOrganisateur'] = 1) {
+        if ($isOrganisateur != null) {
             $qb->andWhere('s.createur = :user')
+                ->setParameter('user', $userId);
+        }
+
+        if ($isInscrit != null) {
+            $qb->innerJoin('s.participants', 'P')
+                ->andWhere('P.id = :user')
                 ->setParameter('user', $userId);
         }
 
