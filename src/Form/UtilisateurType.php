@@ -21,6 +21,7 @@ class UtilisateurType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class)
+            ->add('pseudo')
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
