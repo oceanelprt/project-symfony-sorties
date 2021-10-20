@@ -1,31 +1,41 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="container">
+        <div class="justify-content-center">
+            <h1>{{ utilisateur.pseudo }}  </h1>
+            <br/><br/>
+            <div>
+                <label for="prenom">Prénom : </label>
+                <input type="text" readonly="readonly" name="prenom" id="prenom" class="form-control" value="{{ utilisateur.prenom }}">
+            </div>
+            <div>
+                <label for="nom">Nom : </label>
+                <input type="email" readonly="readonly" name="nom" id="nom" class="form-control" value="{{ utilisateur.nom }}">
+            </div>
+            <div>
+                <label for="telephone">Téléphone : </label>
+                <input type="text" readonly="readonly" name="tel" id="telephone" class="form-control"  value="{{ utilisateur.telephone }}">
+            </div>
+            <div>
+                <label for="email">Email : </label>
+                <input type="text" readonly="readonly" name="email" id="email" class="form-control" value="{{ utilisateur.email }}">
+            </div>
+            <div>
+                <label for="ville">Ville de rattachement : </label>
+                <input type="text" readonly="readonly" name="ville-attachement" id="ville" class="form-control" value="{{ utilisateur.ville.nom }}">
+                {% if(utilisateur.ville is not null) %}
+                    <input type="text" readonly="readonly" name="ville-attachement" id="ville" class="form-control" value="{{ utilisateur.ville.nom }}">
+                {% else %}
+                    <input type="text" readonly="readonly" name="ville-attachement" id="ville" class="form-control" value="Non renseignée ">
+                {% endif %}
+            </div>
+            <br/>
 
-        <h1>{{ utilisateur.pseudo }}  </h1> <br/><br/>
-        <div class="col-lg-4 col-md-6 form-group">
-            <label for="prenom">Prénom : </label>
-            <input type="text" id="prenom" readonly="readonly" name="prenom" class="form-control" value="{{ utilisateur.prenom }}">
+            <div class="col-4 offset-4">
+                <a href="{{ path('home') }}" class="btn btn-primary col-12">Retour</a>
+            </div>
         </div>
-        <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-            <label for="nom">Nom : </label>
-            <input type="text" id="nom" readonly="readonly" name="nom" class="form-control" value="{{ utilisateur.nom }}">
-        </div>
-        <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-            <label for="telephone">Téléphone : </label>
-            <input type="text" id="telephone" readonly="readonly" name="tel" class="form-control"  value="{{ utilisateur.telephone }}">
-        </div>
-        <div class="col-lg-4 col-md-6 form-group mt-3">
-            <label for="email">Email : </label>
-            <input type="email" id="email" readonly="readonly" name="email" class="form-control" value="{{ utilisateur.email }}">
-        </div>
-        <div class="col-lg-4 col-md-6 form-group mt-3">
-            <label for="ville-attachement">Ville de rattachement : </label>
-            {% if(utilisateur.ville is not null) %}
-                <input type="text" id="ville-attachement" readonly="readonly" name="ville-attachement" class="form-control" value="{{ utilisateur.ville.nom }}">
-            {% else %}
-            <input type="text" id="ville-attachement" readonly="readonly" name="ville-attachement" class="form-control" value="Non renseigné">
-            {% endif %}
-        </div>
-        <br/><a href="{{ path('home') }}" class="btn btn-primary">Retour</a>
+    </div>
+
 {% endblock %}
