@@ -244,7 +244,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeSortiesCreees(Sortie $sortiesCreees): self
     {
-        if ($this->participants->removeElement($sortiesCreees)) {
+        if ($this->sortiesCreees->removeElement($sortiesCreees)) {
             // set the owning side to null (unless already changed)
             if ($sortiesCreees->getCreateur() === $this) {
                 $sortiesCreees->setCreateur(null);
@@ -286,12 +286,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->getNom();
     }
 
-    public function getVille(): ?Ville
+    public function getVille(): Ville
     {
         return $this->ville;
     }
 
-    public function setVille(?Ville $ville): self
+    public function setVille(Ville $ville): self
     {
         $this->ville = $ville;
 
