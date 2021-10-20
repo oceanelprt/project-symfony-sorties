@@ -286,7 +286,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->getNom();
     }
 
-    public function getVille(): Ville
+    public function getVille(): ?Ville
     {
         return $this->ville;
     }

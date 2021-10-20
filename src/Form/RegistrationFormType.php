@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Utilisateur;
+use App\Entity\Ville;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -46,6 +49,14 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
+            ])
+            ->add('ville', EntityType::class, [
+                'class' => Ville::class,
+                'choice_label' => 'nom',
+                'query_builder' => function(EntityRepository $repository) {
+                    return $repository->createQueryBuilder('qb')->orderBy('qb.nom', 'ASC');
+                },
+                'required' => false,
             ])
         ;
     }
