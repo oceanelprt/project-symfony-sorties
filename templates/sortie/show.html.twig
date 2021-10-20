@@ -35,6 +35,20 @@
                 <th>Description</th>
                 <td>{{ sortie.description }}</td>
             </tr>
+            <tr>
+                <th>Créateur</th>
+                <td>{{ sortie.createur.pseudo }}</td>
+            </tr>
+            <tr>
+                <th>Participants</th>
+                <td>
+                    <ul>
+                        {% for participant in sortie.participants %}
+                            <li>{{ participant.pseudo }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
         </tbody>
     </table>
 
