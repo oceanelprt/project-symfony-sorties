@@ -1,47 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sortie index{% endblock %}
-
 {% block body %}
-    <p>Date du jour : </p>{{ "now"|date("d/m/Y") }}
-    <p>Organisateur : </p>{{ app.user.prenom }}
-    <h1>Sortie index</h1>
-    {{ form(form) }}
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Duree</th>
-                <th>Date</th>
-                <th>DateCloture</th>
-                <th>NombrePlaces</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for sortie in sorties %}
-            <tr>
-                <td>{{ sortie.id }}</td>
-                <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.duree }}</td>
-                <td>{{ sortie.date ? sortie.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.dateCloture ? sortie.dateCloture|date('Y-m-d') : '' }}</td>
-                <td>{{ sortie.nombrePlaces }}</td>
-                <td>{{ sortie.description }}</td>
-                <td>
-                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Voir</a>
-                    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Editer</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">Aucune sortie disponible</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <strong>Date du jour : </strong>{{ "now"|date("d/m/Y") }}
+                <br/>
+                <strong>Organisateur : </strong>{{ app.user.prenom }}
+                <br/>
+            </div>
+        </div>
+        {{ form_start(form) }}
+        <div class="form-row">
+            <h4>Filtrer les sorties</h4>
 
-    <a href="{{ path('sortie_new') }}">Créer une nouvelle sortie</a>
+            <div class="col-md-4 mb-3">
+                {{ form_row(form.ville) }}
+                {{ form_row(form.nom) }}
+            </div>
+            <div class="col-md-4 mb-3">
+                {{ form_row(form.debut) }}
+                {{ form_row(form.fin) }}
+            </div>
+            <div class="col-md-4 mb-3">
+                {{ form_row(form.isOrganisateur) }}
+                {{ form_row(form.isInscrit) }}
+                {{ form_row(form.isNotInscrit) }}
+                {{ form_row(form.isPassee) }}
+            </div>
+
+        </div>
+        {{ form_end(form) }}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Date de la sortie</th>
+                    <th>Clôture</th>
+                    <th>Inscrits/Places</th>
+                    <th>Etat</th>
+                    <th>Inscrit</th>
+                    <th>Organisateur</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for sortie in sorties %}
+                <tr>
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.date ? sortie.date|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ sortie.dateCloture ? sortie.dateCloture|date('Y-m-d') : '' }}</td>
+                    <td>{{ sortie.nombrePlaces }}</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ sortie.createur.prenom }} {{ sortie.createur.nom }}</td>
+                    <td>
+                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}" class="btn btn-primary">Voir</a>
+                        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Editer</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Aucune sortie disponible</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('sortie_new') }}" class="btn btn-primary">Créer une nouvelle sortie</a>
+    </div>
 {% endblock %}
