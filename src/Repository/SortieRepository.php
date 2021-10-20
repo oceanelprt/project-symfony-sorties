@@ -19,32 +19,35 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    // /**
-    //  * @return Sortie[] Returns an array of Sortie objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findArticlesByFiltre($filtre, $userId)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('s')
+            ->where('s.nom LIKE :key')
+            ->setParameter('key', '%'.$filtre['nom'].'%');
 
-    /*
-    public function findOneBySomeField($value): ?Sortie
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if ($filtre['ville'] != '') {
+            $qb->join('s.lieu', 'l', 'WITH', 'l.ville = :ville')
+                ->setParameter('ville', $filtre['ville']);
+        }
+
+        if ($filtre['debut'] != null) {
+            $qb->andWhere('s.date >= :dateDebut')
+                ->setParameter('dateDebut', $filtre['debut']);
+        }
+
+        if ($filtre['fin'] != null) {
+            $qb->andWhere('s.date >= :dateFin')
+                ->setParameter('dateFin', $filtre['fin']);
+        }
+
+        if ($filtre['isOrganisateur'] = 1) {
+            $qb->andWhere('s.createur = :user')
+                ->setParameter('user', $userId);
+        }
+
+
+        $qb =$qb->getQuery();
+
+        return $qb->getResult();
     }
-    */
 }
