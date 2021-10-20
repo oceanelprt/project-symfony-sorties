@@ -19,9 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/sorties")
- */
+
 class SortieController extends AbstractController
 {
     /**
@@ -61,7 +59,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/creation", name="sortie_new", methods={"GET","POST"})
+     * @Route("sortie/creation", name="sortie_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -70,6 +68,8 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $sortie->setCreateur($this->getUser());
+            $sortie->addParticipant($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -84,7 +84,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="sortie_show", methods={"GET"})
+     * @Route("sortie/{id}", name="sortie_show", methods={"GET"})
      */
     public function show(Sortie $sortie): Response
     {
@@ -94,7 +94,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/editer", name="sortie_edit", methods={"GET","POST"})
+     * @Route("sortie/{id}/editer", name="sortie_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Sortie $sortie): Response
     {
@@ -113,7 +113,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="sortie_delete", methods={"POST"})
+     * @Route("sortie/{id}", name="sortie_delete", methods={"POST"})
      */
     public function delete(Request $request, Sortie $sortie): Response
     {
