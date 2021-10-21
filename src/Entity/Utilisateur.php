@@ -287,7 +287,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString(): string
     {
-        return $this->getNom();
+        return $this->getPseudo();
     }
 
     public function getVille(): ?Ville

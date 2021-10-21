@@ -1,10 +1,10 @@
 {% block body %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="{{ path('sortie_index') }}" style="padding-left:50px; padding-right:50px">Sortir.com</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarText">
+        <div class="collapse navbar-collapse justify-content-end" id="navbarText">
             <ul class="navbar-nav mr-auto">
 
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
