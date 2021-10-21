@@ -23,15 +23,11 @@
             </div>
             <div>
                 <label for="ville">Ville de rattachement : </label>
-                <input type="text" readonly="readonly" name="ville-attachement" id="ville" class="form-control" value="{{ utilisateur.ville.nom }}">
-                {% if(utilisateur.ville is not null) %}
-                    <input type="text" readonly="readonly" name="ville-attachement" id="ville" class="form-control" value="{{ utilisateur.ville.nom }}">
-                {% else %}
-                    <input type="text" readonly="readonly" name="ville-attachement" id="ville" class="form-control" value="Non renseignée ">
-                {% endif %}
+                <input type="text" readonly="readonly" name="ville-attachement" id="ville" class="form-control"
+                       value="{{ utilisateur.ville.nom }}">
             </div>
             <br/>
-
+        </div>
         <div class="col-4 offset-4">
             <a href="{{ path('sortie_index') }}" class="btn btn-primary col-12">Retour</a>
         </div>
