@@ -58,18 +58,19 @@ class SortieRepository extends ServiceEntityRepository
                     ->setParameter('user', $userId);
             }
         }
-        // TODO voir le fonctionnement du bouton "Sorties passées"
-        /*
+
         if ($isPassee != null) {
-            $qb->andWhere('s.date' )
-               ->setParameter('user', $userId);
+            $dateLastMonth = clone $date;
+            $qb->andWhere('s.date BETWEEN :from AND :to')
+                ->setParameter('to', $date)
+                ->setParameter('from', $dateLastMonth->modify('-1 month'));
+
+        } else {
+            $qb->andWhere('s.date >= :now')
+                ->setParameter('now', $date->modify('-1 month'));
         }
-        */
-        $qb->andWhere('s.date >= :now')
-            ->setParameter('now', $date->modify('-1 month'));
 
         $qb =$qb->getQuery();
-
         return $qb->getResult();
     }
 
