@@ -76,6 +76,10 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $ville;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isExpired = true;
 
     public function __construct()
     {
@@ -296,5 +300,15 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->ville = $ville;
 
         return $this;
+    }
+
+    public function isExpired(): bool
+    {
+        return $this->isExpired;
+    }
+
+    public function setIsExpired(bool $isExpired): void
+    {
+        $this->isExpired = $isExpired;
     }
 }

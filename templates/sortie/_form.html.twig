@@ -1,21 +1,21 @@
-
-
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col align-self-center">
-
+            <div class="col" style="text-align:left">
                 {{ form_start(form) }}
                 {{ form_row(form.nom) }}
                 {{ form_row(form.date) }}
                 {{ form_row(form.dateCloture) }}
                 {{ form_row(form.duree) }}
-                {{ form_row(form.description) }}
                 {{ form_row(form.nombrePlaces) }}
+                {{ form_row(form.description) }}
+            </div>
+            <div class="col" style="text-align:right">
                 {{ form_row(form.lieu) }}
                 {{ form_row(form.etat) }}
+            </div>
 
-                <button type="submit" class="btn">Sauvegarde</button>
+                <button type="submit" class="btn btn-primary">Sauvegarde</button>
                 {{ form_end(form) }}
 
             </div>

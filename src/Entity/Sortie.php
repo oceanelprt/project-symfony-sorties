@@ -32,16 +32,16 @@ class Sortie
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\GreaterThan("today")
+     * @Assert\Expression(
+     *     "this.getDate() > this.getDateCloture()",
+     *     message="La date de cloture de l'inscription doit être antérieure à la date prévue de la sortie"
+     * )
      */
     private $date;
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\Expression(
-     *     "this.getDate() < this.getDateCloture()",
-     *     message="La date de cloture ne doit pas être antérieure à la date de la sortie"
-     * )
+     * @Assert\GreaterThan("today")
      */
     private $dateCloture;
 
@@ -77,6 +77,11 @@ class Sortie
      * @ORM\JoinColumn(nullable=false)
      */
     private $etat;
+
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $motifAnnulation;
 
     public function __construct()
     {
