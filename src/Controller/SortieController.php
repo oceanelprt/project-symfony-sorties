@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Entity\Lieu;
 use App\Entity\Utilisateur;
 use App\Form\FiltreType;
 use App\Form\SortieType;
