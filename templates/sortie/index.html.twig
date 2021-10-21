@@ -2,24 +2,26 @@
 
 {% block body %}
     <div class="container-fluid">
-
-
-
             <div class="row justify-content-between">
                 <h4 class="col-md-3">Filtrer les sorties</h4>
-                <div class="col-md-2">
+                <div class="col-md-3 col-lg-2">
                     <strong>Date du jour : </strong>{{ "now"|date("d/m/Y") }}
                     <br/>
                     <strong>Organisateur : </strong>{{ app.user.prenom }}
                     <br/>
                 </div>
             </div>
-
-
-        {{ form_start(form, { 'attr': { 'class' : 'form-inline', 'role' : 'form' } }) }}
+        {{ form_start(form) }}
             <div class="row">
                 <div class="col-md-5 mt-4 mx-3">
-                    {{ form_row(form.nom) }}
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            {{ form_label(form.nom) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.nom) }}
+                        </div>
+                    </div>
                     <div class="row mb-3">
                         <div class="col-2">
                             {{ form_label(form.ville) }}
