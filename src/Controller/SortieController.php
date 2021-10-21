@@ -182,4 +182,22 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('sortie_index');
     }
+
+    /**
+     * @Route("sortie/{sortie}/unregister", requirements={"sortie"="\d+"}, name="sortie_unregister")
+     */
+    public function unregister(Request $request, Sortie $sortie)
+    {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $utilisateur = $em->getRepository(Utilisateur::class)->findOneBy(['pseudo' => $user->getUserIdentifier()]);
+
+        $sortie->removeParticipant($utilisateur);
+
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('sortie_index');
+    }
 }
