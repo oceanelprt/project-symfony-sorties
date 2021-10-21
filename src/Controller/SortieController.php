@@ -123,7 +123,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("sortie/{id}", name="sortie_show", methods={"GET"})
+     * @Route("sortie/{sortie}", requirements={"sortie"="\d+"}, name="sortie_show", methods={"GET"})
      */
     public function show(Sortie $sortie): Response
     {
@@ -133,7 +133,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("sortie/{id}/editer", name="sortie_edit", methods={"GET","POST"})
+     * @Route("sortie/{sortie}/editer", requirements={"sortie"="\d+"}, name="sortie_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Sortie $sortie): Response
     {
@@ -152,7 +152,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("sortie/{id}", name="sortie_delete", methods={"POST"})
+     * @Route("sortie/{sortie}", requirements={"sortie"="\d+"}, name="sortie_delete", methods={"POST"})
      */
     public function delete(Request $request, Sortie $sortie): Response
     {
@@ -163,5 +163,23 @@ class SortieController extends AbstractController
         }
 
         return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("sortie/{sortie}/register", requirements={"sortie"="\d+"}, name="sortie_register")
+     */
+    public function register(Request $request, Sortie $sortie)
+    {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $utilisateur = $em->getRepository(Utilisateur::class)->findOneBy(['pseudo' => $user->getUserIdentifier()]);
+
+        $sortie->addParticipant($utilisateur);
+
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('sortie_index');
     }
 }
