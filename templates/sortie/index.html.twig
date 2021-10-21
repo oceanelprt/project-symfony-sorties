@@ -53,13 +53,13 @@
                     <td>{{ sortie.nombrePlaces }}</td>
                     <td></td>
                     <td></td>
-                    <td>{{ sortie.createur.prenom }} {{ sortie.createur.nom }}</td>
+                    <td><a href="{{ path('utilisateur_info', {'utilisateur': sortie.createur.id}) }}">{{ sortie.createur.prenom }} {{ sortie.createur.nom }}</a></td>
                     <td>
                         <a href="{{ path('sortie_show', {'sortie': sortie.id}) }}" class="btn btn-primary">Afficher</a>
                         {% if app.user.id == sortie.createur.id %}
                             <a href="{{ path('sortie_edit', {'sortie': sortie.id}) }}" class="btn btn-primary">Modifier</a>
                         {% else %}
-                            <a href="{{ path('sortie_register', {'sortie': sortie.id}) }}" class="btn btn-primary">S'inscrire</a>
+                            <button class="btn btn-primary" id="inscription" value="{{ sortie.id }}" >S'inscrire</button>
                         {% endif %}
                     </td>
                 </tr>
@@ -73,4 +73,23 @@
 
         <a href="{{ path('sortie_new') }}" class="btn btn-primary">Créer une nouvelle sortie</a>
     </div>
+
+    <script>
+        $(document).on('click','inscription',function(){
+            console.log("plop")
+            {#$.ajax('{{ path('sortie_register', {'sortie': sortie.id}) }}', {#}
+            {#    data: {#}
+
+            {#    },#}
+            {#    success: function(data) {#}
+            {#        console.log("plop")#}
+            {#    },#}
+            {#    error: function() {#}
+            {#        // show alert or something#}
+            {#    }#}
+            {#});#}
+            {#return false; // this stops normal button behaviour from executing;#}
+
+        });
+    </script>
 {% endblock %}
