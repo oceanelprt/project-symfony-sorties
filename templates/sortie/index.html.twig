@@ -55,11 +55,11 @@
                     <td></td>
                     <td>{{ sortie.createur.prenom }} {{ sortie.createur.nom }}</td>
                     <td>
-                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}" class="btn btn-primary">Afficher</a>
+                        <a href="{{ path('sortie_show', {'sortie': sortie.id}) }}" class="btn btn-primary">Afficher</a>
                         {% if app.user.id == sortie.createur.id %}
-                            <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Modifier</a>
+                            <a href="{{ path('sortie_edit', {'sortie': sortie.id}) }}" class="btn btn-primary">Modifier</a>
                         {% else %}
-                            <a href="#" class="btn btn-primary">S'inscrire</a>
+                            <a href="{{ path('sortie_register', {'sortie': sortie.id}) }}" class="btn btn-primary">S'inscrire</a>
                         {% endif %}
                     </td>
                 </tr>
