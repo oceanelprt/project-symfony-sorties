@@ -180,6 +180,6 @@ class SortieController extends AbstractController
         $em->persist($sortie);
         $em->flush();
 
-        return $this->redirectToRoute('sortie_index');
+        return $this->redirectToRoute('sortie_index', [], 200);
     }
 }
