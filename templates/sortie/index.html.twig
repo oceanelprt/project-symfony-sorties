@@ -51,30 +51,47 @@
         {{ form_end(form) }}
         <table class="table">
             <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Date de la sortie</th>
-                    <th>Clôture</th>
-                    <th>Inscrits/Places</th>
-                    <th>Etat</th>
-                    <th>Inscrit</th>
-                    <th>Organisateur</th>
-                    <th>Actions</th>
-                </tr>
+            <tr>
+                <th>Nom</th>
+                <th>Date de la sortie</th>
+                <th>Clôture</th>
+                <th>Inscrits/Places</th>
+                <th>Etat</th>
+                <th>Inscrit</th>
+                <th>Organisateur</th>
+                <th>Actions</th>
+            </tr>
             </thead>
             <tbody>
             {% for sortie in sorties %}
+                {% set isInscrit = false %}
+                {% for participant in sortie.participants %}
+                    {% if participant.pseudo == app.user.pseudo %}
+                        {% set isInscrit = true %}
+                    {% endif %}
+                {% endfor %}
                 <tr>
                     <td>{{ sortie.nom }}</td>
-                    <td>{{ sortie.date ? sortie.date|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ sortie.dateCloture ? sortie.dateCloture|date('Y-m-d') : '' }}</td>
+                    <td>{{ sortie.date ? sortie.date|date("d/m/Y") : '' }}</td>
+                    <td>{{ sortie.dateCloture ? sortie.dateCloture|date("d/m/Y") : '' }}</td>
                     <td>{{ sortie.nombrePlaces }}</td>
-                    <td></td>
-                    <td></td>
-                    <td>{{ sortie.createur.prenom }} {{ sortie.createur.nom }}</td>
+                    <td>{{ sortie.etat }}</td>
+                    <td>{% if isInscrit == true %}X{% endif %}</td>
+                    <td><a href="{{ path('utilisateur_info', {'utilisateur': sortie.createur.id}) }}">{{ sortie.createur.prenom }} {{ sortie.createur.nom }}</a></td>
                     <td>
-                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}" class="btn btn-primary">Voir</a>
-                        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Editer</a>
+                        <a href="{{ path('sortie_show', {'sortie': sortie.id}) }}" class="btn btn-primary">Afficher</a>
+                        {% if app.user.id == sortie.createur.id %}
+                            <a href="{{ path('sortie_edit', {'sortie': sortie.id}) }}" class="btn btn-primary">Modifier</a>
+                        {% else %}
+
+                            {% if isInscrit == true %}
+                                <button class="btn btn-primary" id="desistement" name="desistement" value="{{ sortie.id }}">Se désister</button>
+                            {% endif %}
+
+                            {% if isInscrit == false and date() < date(sortie.dateCloture) %}
+                                <button class="btn btn-primary" id="inscription" name="inscription" value="{{ sortie.id }}" >S'inscrire</button>
+                            {% endif %}
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

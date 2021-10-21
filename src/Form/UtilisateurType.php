@@ -46,7 +46,7 @@ class UtilisateurType extends AbstractType
                     'query_builder' => function(EntityRepository $repository) {
                     return $repository->createQueryBuilder('qb')->orderBy('qb.nom', 'ASC');
                 },
-                'required' => false
+                'required' => true
             ])
         ;
     }
