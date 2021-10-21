@@ -46,26 +46,30 @@
             </thead>
             <tbody>
             {% for sortie in sorties %}
+                {% set isInscrit = false %}
+                {% for participant in sortie.participants %}
+                    {% if participant.pseudo == app.user.pseudo %}
+                        {% set isInscrit = true %}
+                    {% endif %}
+                {% endfor %}
                 <tr>
                     <td>{{ sortie.nom }}</td>
                     <td>{{ sortie.date ? sortie.date|date("d/m/Y") : '' }}</td>
                     <td>{{ sortie.dateCloture ? sortie.dateCloture|date("d/m/Y") : '' }}</td>
                     <td>{{ sortie.nombrePlaces }}</td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ sortie.etat }}</td>
+                    <td>{% if isInscrit == true %}X{% endif %}</td>
                     <td><a href="{{ path('utilisateur_info', {'utilisateur': sortie.createur.id}) }}">{{ sortie.createur.prenom }} {{ sortie.createur.nom }}</a></td>
                     <td>
                         <a href="{{ path('sortie_show', {'sortie': sortie.id}) }}" class="btn btn-primary">Afficher</a>
                         {% if app.user.id == sortie.createur.id %}
                             <a href="{{ path('sortie_edit', {'sortie': sortie.id}) }}" class="btn btn-primary">Modifier</a>
                         {% else %}
-                            {% set isInscrit = false %}
-                            {% for participant in sortie.participants %}
-                                {% if participant.pseudo == app.user.pseudo %}
-                                    <button class="btn btn-primary" id="desistement" name="desistement" value="{{ sortie.id }}">Se désister</button>
-                                    {% set isInscrit = true %}
-                                {% endif %}
-                            {% endfor %}
+
+                            {% if isInscrit == true %}
+                                <button class="btn btn-primary" id="desistement" name="desistement" value="{{ sortie.id }}">Se désister</button>
+                            {% endif %}
+
                             {% if isInscrit == false and date() < date(sortie.dateCloture) %}
                                 <button class="btn btn-primary" id="inscription" name="inscription" value="{{ sortie.id }}" >S'inscrire</button>
                             {% endif %}
