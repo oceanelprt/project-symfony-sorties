@@ -26,7 +26,7 @@ class FiltreType extends AbstractType
                 'required' => false,
             ])
             ->add('nom', TextType::class, [
-                'label' => false,
+                'label' => 'Le nom de sortie contient :',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
