@@ -48,8 +48,8 @@
             {% for sortie in sorties %}
                 <tr>
                     <td>{{ sortie.nom }}</td>
-                    <td>{{ sortie.date ? sortie.date|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ sortie.dateCloture ? sortie.dateCloture|date('Y-m-d') : '' }}</td>
+                    <td>{{ sortie.date ? sortie.date|date("d/m/Y") : '' }}</td>
+                    <td>{{ sortie.dateCloture ? sortie.dateCloture|date("d/m/Y") : '' }}</td>
                     <td>{{ sortie.nombrePlaces }}</td>
                     <td></td>
                     <td></td>
@@ -66,7 +66,7 @@
                                     {% set isInscrit = true %}
                                 {% endif %}
                             {% endfor %}
-                            {% if isInscrit == false %}
+                            {% if isInscrit == false and date() < date(sortie.dateCloture) %}
                                 <button class="btn btn-primary" id="inscription" name="inscription" value="{{ sortie.id }}" >S'inscrire</button>
                             {% endif %}
                         {% endif %}
