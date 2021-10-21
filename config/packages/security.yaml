@@ -43,3 +43,4 @@ security:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/inscription, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/logout, roles:  [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/, roles:  [IS_AUTHENTICATED_FULLY] }
