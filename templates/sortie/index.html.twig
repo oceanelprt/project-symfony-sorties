@@ -2,34 +2,52 @@
 
 {% block body %}
     <div class="container-fluid">
-        <div class="row">
-            <div class="col">
-                <strong>Date du jour : </strong>{{ "now"|date("d/m/Y") }}
-                <br/>
-                <strong>Organisateur : </strong>{{ app.user.prenom }}
-                <br/>
-            </div>
-        </div>
-        {{ form_start(form) }}
-        <div class="form-row">
-            <h4>Filtrer les sorties</h4>
 
-            <div class="col-md-4 mb-3">
-                {{ form_row(form.ville) }}
-                {{ form_row(form.nom) }}
-            </div>
-            <div class="col-md-4 mb-3">
-                {{ form_row(form.debut) }}
-                {{ form_row(form.fin) }}
-            </div>
-            <div class="col-md-4 mb-3">
-                {{ form_row(form.isOrganisateur) }}
-                {{ form_row(form.isInscrit) }}
-                {{ form_row(form.isNotInscrit) }}
-                {{ form_row(form.isPassee) }}
+
+
+            <div class="row justify-content-between">
+                <h4 class="col-md-3">Filtrer les sorties</h4>
+                <div class="col-md-2">
+                    <strong>Date du jour : </strong>{{ "now"|date("d/m/Y") }}
+                    <br/>
+                    <strong>Organisateur : </strong>{{ app.user.prenom }}
+                    <br/>
+                </div>
             </div>
 
-        </div>
+
+        {{ form_start(form, { 'attr': { 'class' : 'form-inline', 'role' : 'form' } }) }}
+            <div class="row">
+                <div class="col-md-5 mt-4 mx-3">
+                    {{ form_row(form.nom) }}
+                    <div class="row mb-3">
+                        <div class="col-2">
+                            {{ form_label(form.ville) }}
+                        </div>
+                        <div class="col-10">
+                            {{ form_widget(form.ville) }}
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.debut) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.fin) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-5 mx-5">
+                    {{ form_row(form.isOrganisateur) }}
+                    {{ form_row(form.isInscrit) }}
+                    {{ form_row(form.isNotInscrit) }}
+                    {{ form_row(form.isPassee) }}
+                </div>
+            </div>
         {{ form_end(form) }}
         <table class="table">
             <thead>
