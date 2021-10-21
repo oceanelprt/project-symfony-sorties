@@ -59,7 +59,7 @@
                         {% if app.user.id == sortie.createur.id %}
                             <a href="{{ path('sortie_edit', {'sortie': sortie.id}) }}" class="btn btn-primary">Modifier</a>
                         {% else %}
-                            <button class="btn btn-primary" id="inscription" value="{{ sortie.id }}" >S'inscrire</button>
+                            <button class="btn btn-primary" id="inscription" name="inscription" value="{{ sortie.id }}" >S'inscrire</button>
                         {% endif %}
                     </td>
                 </tr>
@@ -73,23 +73,4 @@
 
         <a href="{{ path('sortie_new') }}" class="btn btn-primary">Créer une nouvelle sortie</a>
     </div>
-
-    <script>
-        $(document).on('click','inscription',function(){
-            console.log("plop")
-            {#$.ajax('{{ path('sortie_register', {'sortie': sortie.id}) }}', {#}
-            {#    data: {#}
-
-            {#    },#}
-            {#    success: function(data) {#}
-            {#        console.log("plop")#}
-            {#    },#}
-            {#    error: function() {#}
-            {#        // show alert or something#}
-            {#    }#}
-            {#});#}
-            {#return false; // this stops normal button behaviour from executing;#}
-
-        });
-    </script>
 {% endblock %}
