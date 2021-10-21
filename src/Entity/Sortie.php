@@ -78,6 +78,11 @@ class Sortie
      */
     private $etat;
 
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $motifAnnulation;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();

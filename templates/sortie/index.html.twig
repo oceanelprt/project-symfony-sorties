@@ -56,7 +56,7 @@
                     <td>{{ sortie.nom }}</td>
                     <td>{{ sortie.date ? sortie.date|date("d/m/Y") : '' }}</td>
                     <td>{{ sortie.dateCloture ? sortie.dateCloture|date("d/m/Y") : '' }}</td>
-                    <td>{{ sortie.nombrePlaces }}</td>
+                    <td>{{ sortie.participants|length }}/{{ sortie.nombrePlaces }}</td>
                     <td>{{ sortie.etat }}</td>
                     <td>{% if isInscrit == true %}X{% endif %}</td>
                     <td><a href="{{ path('utilisateur_info', {'utilisateur': sortie.createur.id}) }}">{{ sortie.createur.prenom }} {{ sortie.createur.nom }}</a></td>

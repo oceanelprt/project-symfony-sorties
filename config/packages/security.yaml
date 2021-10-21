@@ -19,6 +19,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            user_checker: App\Security\UserChecker
             form_login:
                 login_path: app_login
                 check_path: app_login
