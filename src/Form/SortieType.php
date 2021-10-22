@@ -50,7 +50,6 @@ class SortieType extends AbstractType
                 'label' => "Description de la sortie"
             ])
             ->add('lieu')
-            ->add('etat')
         ;
     }
 

@@ -12,9 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Etat
 {
-    const ETAT_NON_COMMENCE = 'Non commencé';
-    const ETAT_COMMENCE = 'Commencé';
-    const ETAT_TERMINE = 'Terminé';
+    const ETAT_EN_CREATION = 'En création';
+    const ETAT_OUVERT = 'Ouvert';
+    const ETAT_FERME = 'Fermé';
     const ETAT_ANNULE = 'Annulé';
 
     /**

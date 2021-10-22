@@ -83,7 +83,12 @@
                     <td>
                         <a href="{{ path('sortie_show', {'sortie': sortie.id}) }}" class="btn btn-primary">Afficher</a>
                         {% if app.user.id == sortie.createur.id %}
-                            <a href="{{ path('sortie_edit', {'sortie': sortie.id}) }}" class="btn btn-primary">Modifier</a>
+                            {% if sortie.etat != 'Annulé' %}
+                                <a href="{{ path('sortie_edit', {'sortie': sortie.id}) }}" class="btn btn-primary">Modifier</a>
+                            {% endif %}
+                            {% if sortie.etat == 'En création' %}
+                                <a href="{{ path('sortie_publier', {'sortie': sortie.id}) }}" class="btn btn-primary">Publier</a>
+                            {% endif %}
                             {% if sortie.etat == 'Ouvert' %}
                                 <button id="btnAnnuler{{ sortie.id }}" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary" value="{{ sortie.id }}">Annuler</button>
                                 <!-- Modal -->

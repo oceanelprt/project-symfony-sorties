@@ -70,12 +70,16 @@ class SortieController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $etat = $em->getRepository(Etat::class)->findOneBy(['etat' => Etat::ETAT_EN_CREATION]);
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $sortie->setCreateur($this->getUser());
+
+            $sortie->setEtat($etat);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -147,6 +151,22 @@ class SortieController extends AbstractController
         $utilisateur = $em->getRepository(Utilisateur::class)->findOneBy(['pseudo' => $user->getUserIdentifier()]);
 
         $sortie->removeParticipant($utilisateur);
+
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('sortie_index');
+    }
+
+    /**
+     * @Route("sortie/{sortie}/publier", requirements={"sortie"="\d+"}, name="sortie_publier")
+     */
+    public function publier(Request $request, Sortie $sortie)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $etat = $em->getRepository(Etat::class)->findOneBy(['etat' => Etat::ETAT_OUVERT]);
+
+        $sortie->setEtat($etat);
 
         $em->persist($sortie);
         $em->flush();

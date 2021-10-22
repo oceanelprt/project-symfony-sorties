@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% include 'icon-back.html.twig' %}
+
     <h1>Créer une Sortie</h1>
 
     {{ include('sortie/_form.html.twig') }}
 
-    <a href="{{ path('sortie_index') }}" class="btn btn-primary">retourner à la liste</a>
 {% endblock %}
