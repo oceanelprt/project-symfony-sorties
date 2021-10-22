@@ -53,4 +53,5 @@ crons:
         # every day at 0h10 AM
         spec: 10 0 * * *
         cmd: |
-            croncape symfony console app:test:command
+            croncape symfony console app:archiving:command
+
