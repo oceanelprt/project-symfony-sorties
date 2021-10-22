@@ -35,28 +35,28 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('ville', $filtre['ville']);
         }
         if ($filtre['debut'] != null) {
-            $qb->andWhere('s.date >= :dateDebut')
+            $qb->andWhere($qb->expr()->gt('s.date',':dateDebut'))
                 ->setParameter('dateDebut', $filtre['debut']);
         }
         if ($filtre['fin'] != null) {
-            $qb->andWhere('s.date >= :dateFin')
+            $qb->andWhere($qb->expr()->gt('s.date',':dateFin'))
                 ->setParameter('dateFin', $filtre['fin']);
         }
         if ($isOrganisateur != null) {
-            $qb->andWhere('s.createur = :user')
+            $qb->andWhere($qb->expr()->eq('s.createur',':user'))
                 ->setParameter('user', $userId);
         }
         if ($isInscrit != $isNotInscrit) {
+            $qb->innerJoin('s.participants', 'p');
+
             if ($isInscrit != null) {
-                $qb->innerJoin('s.participants', 'p')
-                    ->andWhere('p.id = :user')
-                    ->setParameter('user', $userId);
+                $qb->andWhere($qb->expr()->eq('p.id',':user'));
             }
             if ($isNotInscrit != null) {
-                $qb->innerJoin('s.participants', 'n')
-                    ->andWhere('n.id != :user')
-                    ->setParameter('user', $userId);
+                $qb->andWhere($qb->expr()->notIn('p.id', $userId))
+                    ->andWhere($qb->expr()->notIn('s.createur', ':user'));
             }
+            $qb->setParameter('user', $userId);
         }
 
         if ($isPassee != null) {
@@ -66,11 +66,12 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('from', $dateLastMonth->modify('-1 month'));
 
         } else {
-            $qb->andWhere('s.date >= :now')
+            $qb->andWhere($qb->expr()->gt('s.date',':now'))
                 ->setParameter('now', $date->modify('-1 month'));
         }
 
         $qb =$qb->getQuery();
+
         return $qb->getResult();
     }
 
