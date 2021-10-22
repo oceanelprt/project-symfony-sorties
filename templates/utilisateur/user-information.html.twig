@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <a href="javascript:history.go(-1)">
+        <i class="bi bi-arrow-bar-left" style="font-size:48px;color:blue; "></i>
+    </a>
     <div class="container">
         <div class="justify-content-center">
             <h1>{{ utilisateur.pseudo }}  </h1>
@@ -27,9 +30,6 @@
                        value="{{ utilisateur.ville.nom }}">
             </div>
             <br/>
-        </div>
-        <div class="col-4 offset-4">
-            <a href="{{ path('sortie_index') }}" class="btn btn-primary col-12">Retour</a>
         </div>
     </div>
 

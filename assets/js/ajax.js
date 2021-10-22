@@ -1,9 +1,5 @@
 import $ from 'jquery';
 
-// const $ = require('jquery');
-
-//global.$ = global.jQuery = $;
-
 
 $('#inscription').ready(function () {
 
@@ -14,7 +10,7 @@ $('#inscription').ready(function () {
 
             },
             success: function(data) {
-               $("#inscription").prop("id", "desistement").prop("name", "desistement").html("Se désister");
+                location.reload();
             },
             error: function() {
                 alert("Inscription impossible")
@@ -30,11 +26,9 @@ $('#desistement').ready(function () {
     $('#desistement').click(function(){
         var idSortie = $(this).val();
         $.ajax("sortie/" + idSortie + "/unregister", {
-            data: {
 
-            },
             success: function(data) {
-                $("#desistement").prop("id", "inscription").prop("name", "inscription").html("S'inscrire");
+                location.reload();
             },
             error: function() {
                 alert("Désinscription impossible")
