@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,6 +15,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SortieRepository extends ServiceEntityRepository
 {
+    const DAYS_BEFORE_REMOVAL = 1;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Sortie::class);
@@ -35,15 +38,15 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('ville', $filtre['ville']);
         }
         if ($filtre['debut'] != null) {
-            $qb->andWhere('s.date >= :dateDebut')
+            $qb->andWhere($qb->expr()->gt('s.date',':dateDebut'))
                 ->setParameter('dateDebut', $filtre['debut']);
         }
         if ($filtre['fin'] != null) {
-            $qb->andWhere('s.date >= :dateFin')
+            $qb->andWhere($qb->expr()->gt('s.date',':dateFin'))
                 ->setParameter('dateFin', $filtre['fin']);
         }
         if ($isOrganisateur != null) {
-            $qb->andWhere('s.createur = :user')
+            $qb->andWhere($qb->expr()->eq('s.createur',':user'))
                 ->setParameter('user', $userId);
         }
         if ($isInscrit != $isNotInscrit) {
@@ -66,7 +69,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('from', $dateLastMonth->modify('-1 month'));
 
         } else {
-            $qb->andWhere('s.date >= :now')
+            $qb->andWhere($qb->expr()->gt('s.date',':now'))
                 ->setParameter('now', $date->modify('-1 month'));
         }
 
@@ -76,18 +79,68 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $date
-     * @return Sortie Toutes les sorties jusque 1 mois après leurs réalisation
-     */
-   public function findByDate($date)
-   {
+    * @return Sortie Toutes les sorties jusque 1 mois après leurs réalisation
+    */
+    public function findNonArchivees()
+    {
        return $this->createQueryBuilder('s')
-           ->andWhere('s.date >= :now')
-           ->setParameter('now', $date->modify('-1 month'))
+           ->andWhere('s.archive = 0')
            ->orderBy('s.date', 'ASC')
            ->getQuery()
            ->getResult()
        ;
-   }
-}
+    }
 
+    /**
+    * change le statut des sorties "non commencé" -> "commencé"
+    */
+    public function changeEtatForInProgress($etatEnCoursId, $etatOuvertId)
+    {
+       $date = date_format(new \DateTime(), 'Y-m-d');
+       return $this->createQueryBuilder('s')
+           ->update()
+           ->set('s.etat', ':etat')
+           ->where('s.date LIKE :now')
+           ->andWhere('s.etat = :etatActuel')
+           ->setParameter('now','%'.$date.'%' )
+           ->setParameter('etat', $etatEnCoursId)
+           ->setParameter('etatActuel', $etatOuvertId)
+           ->getQuery()
+           ->execute();
+    }
+
+    /**
+    * change le statut des sorties "commencé" -> "terminé"
+    */
+    public function changeEtatForClosing($etatFermeId, $etatEnCoursId)
+    {
+       $date = date_format(new \DateTime('-1 day'), 'Y-m-d');
+       return $this->createQueryBuilder('s')
+           ->update()
+           ->set('s.etat', ':etat')
+           ->where('s.date LIKE :now')
+           ->andWhere('s.etat = :etatActuel')
+           ->setParameters([
+               'now'=>'%'.$date.'%',
+               'etat' => $etatFermeId,
+               'etatActuel' => $etatEnCoursId
+           ])
+           ->getQuery()
+           ->execute();
+    }
+
+    /**
+    * archive les sorties terminés il y a plus de 1 mois
+    */
+    public function archivingOldSortie(): int
+    {
+        return $this->getOldSortiesQueryBuilder()->update()->set('s.archive', '1')->getQuery()->execute();
+    }
+
+    private function getOldSortiesQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.date < :now')
+            ->setParameter('now', new \DateTime(-self::DAYS_BEFORE_REMOVAL.' month'));
+    }
+}
