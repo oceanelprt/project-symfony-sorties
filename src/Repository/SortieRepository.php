@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,6 +15,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SortieRepository extends ServiceEntityRepository
 {
+    const DAYS_BEFORE_REJECTED_REMOVAL = 30;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Sortie::class);
@@ -75,11 +78,11 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $date
-     * @return Sortie Toutes les sorties jusque 1 mois après leurs réalisation
-     */
-   public function findByDate($date)
-   {
+    * @param $date
+    * @return Sortie Toutes les sorties jusque 1 mois après leurs réalisation
+    */
+    public function findByDate($date)
+    {
        return $this->createQueryBuilder('s')
            ->andWhere('s.date >= :now')
            ->setParameter('now', $date->modify('-1 month'))
@@ -87,6 +90,57 @@ class SortieRepository extends ServiceEntityRepository
            ->getQuery()
            ->getResult()
        ;
-   }
-}
+    }
 
+    /**
+    * change le statut des sorties "non commencé" -> "commencé"
+    */
+    public function changeEtatForInProgress()
+    {
+       return $this->createQueryBuilder('s')
+           ->update()
+           ->set('s.etat', '2')
+           ->where('s.date = :now')
+           ->setParameter('now', new \DateTime())
+           ->getQuery()
+           ->execute();
+    }
+
+    /**
+    * change le statut des sorties "commencé" -> "terminé"
+    */
+    public function changeEtatForClosing()
+    {
+       $date = new \DateTime();
+       return $this->createQueryBuilder('s')
+           ->update()
+           ->set('s.etat', '3')
+           ->where('s.date = :now')
+           ->setParameter('now', $date->modify('-1 day'))
+           ->getQuery()
+           ->execute();
+    }
+
+    /**
+     * @return Sortie les sorties terminés il y a plus de 1 mois
+     */
+    public function getOldSortie()
+    {
+        return $this->getOldSortiesQueryBuilder()->getQuery()->execute();
+    }
+
+    /**
+    * suppression des sorties terminés il y a plus de 1 mois
+    */
+    public function deleteOldSortie(): int
+    {
+        return $this->getOldSortiesQueryBuilder()->delete()->getQuery()->execute();
+    }
+
+    private function getOldSortiesQueryBuilder(): QueryBuilder
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.date < :now')
+            ->setParameter('now', new \DateTime(-self::DAYS_BEFORE_REJECTED_REMOVAL.' days'));
+    }
+}
