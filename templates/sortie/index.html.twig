@@ -84,13 +84,39 @@
                         <a href="{{ path('sortie_show', {'sortie': sortie.id}) }}" class="btn btn-primary">Afficher</a>
                         {% if app.user.id == sortie.createur.id %}
                             <a href="{{ path('sortie_edit', {'sortie': sortie.id}) }}" class="btn btn-primary">Modifier</a>
+                            {% if sortie.etat == 'Ouvert' %}
+                                <button id="btnAnnuler{{ sortie.id }}" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary" value="{{ sortie.id }}">Annuler</button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Annuler la sortie</h5>
+                                            </div>
+                                            <form method="POST">
+                                                <div class="modal-body">
+                                                    <input type="hidden" id="idSortie" name="idSortie" value="{{ sortie.id }}">
+                                                    <label for="motifAnnulation">Motif d'annulation :</label>
+                                                    <textarea id="motifAnnulation" name="motifAnnulation"></textarea>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                                    <button type="submit" class="btn btn-primary">Confirmer</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endif %}
                         {% else %}
 
-                            {% if isInscrit == true %}
+                            {% if isInscrit == true and sortie.etat == 'Ouvert' %}
                                 <button class="btn btn-primary" id="desistement" name="desistement" value="{{ sortie.id }}">Se désister</button>
                             {% endif %}
 
-                            {% if isInscrit == false and date() < date(sortie.dateCloture) %}
+                            {% if isInscrit == false and date() < date(sortie.dateCloture) and sortie.etat == 'Ouvert' %}
                                 <button class="btn btn-primary" id="inscription" name="inscription" value="{{ sortie.id }}" >S'inscrire</button>
                             {% endif %}
                         {% endif %}
@@ -105,5 +131,7 @@
         </table>
 
         <a href="{{ path('sortie_new') }}" class="btn btn-primary">Créer une nouvelle sortie</a>
+
     </div>
+
 {% endblock %}

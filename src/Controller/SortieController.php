@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Etat;
 use App\Entity\Sortie;
-use App\Entity\Lieu;
 use App\Entity\Utilisateur;
 use App\Form\FiltreType;
 use App\Form\SortieType;
@@ -14,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 class SortieController extends AbstractController
 {
     /**
@@ -22,6 +20,7 @@ class SortieController extends AbstractController
      */
     public function index(SortieRepository $sortieRepository, Request $request): Response
     {
+        $em = $this->getDoctrine()->getManager();
         // recuperation nom utilisateur si connecté
         $user = $this->getUser()->getUserIdentifier();
 
@@ -47,6 +46,19 @@ class SortieController extends AbstractController
         } else {
             $sorties = $sortieRepository->findByDate($date);
         }
+
+        if ($request->request->get('motifAnnulation')) {
+            $idSortie = $request->request->get('idSortie');
+            $motifAnnulation = $request->request->get('motifAnnulation');
+            $sortie = $em->getRepository(Sortie::class)->find($idSortie);
+            $etat = $em->getRepository(Etat::class)->findOneBy(['etat' => Etat::ETAT_ANNULE]);
+            $sortie->setEtat($etat);
+            $sortie->setMotifAnnulation($motifAnnulation);
+
+            $em->persist($sortie);
+            $em->flush();
+        }
+
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
             'form' => $form->createView(),
@@ -64,7 +76,6 @@ class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $sortie->setCreateur($this->getUser());
-            $sortie->addParticipant($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -105,20 +116,6 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
             'form' => $form,
         ]);
-    }
-
-    /**
-     * @Route("sortie/{sortie}", requirements={"sortie"="\d+"}, name="sortie_delete", methods={"POST"})
-     */
-    public function delete(Request $request, Sortie $sortie): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($sortie);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
     /**
