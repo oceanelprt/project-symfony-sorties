@@ -121,7 +121,7 @@
                                 <button class="btn btn-primary" id="desistement" name="desistement" value="{{ sortie.id }}">Se désister</button>
                             {% endif %}
 
-                            {% if isInscrit == false and date() < date(sortie.dateCloture) and sortie.etat == 'Ouvert' %}
+                            {% if isInscrit == false and date() < date(sortie.dateCloture) and sortie.etat == 'Ouvert' and sortie.participants|length != sortie.nombrePlaces %}
                                 <button class="btn btn-primary" id="inscription" name="inscription" value="{{ sortie.id }}" >S'inscrire</button>
                             {% endif %}
                         {% endif %}
