@@ -87,10 +87,10 @@
                                 <a href="{{ path('sortie_edit', {'sortie': sortie.id}) }}" class="btn btn-primary">Modifier</a>
                             {% endif %}
                             {% if sortie.etat == 'En création' %}
-                                <a href="{{ path('sortie_publier', {'sortie': sortie.id}) }}" class="btn btn-primary">Publier</a>
+                                <a href="{{ path('sortie_publier', {'sortie': sortie.id}) }}" class="btn btn-success">Publier</a>
                             {% endif %}
                             {% if sortie.etat == 'Ouvert' %}
-                                <button id="btnAnnuler{{ sortie.id }}" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary" value="{{ sortie.id }}">Annuler</button>
+                                <button id="btnAnnuler{{ sortie.id }}" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-danger">Annuler</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">

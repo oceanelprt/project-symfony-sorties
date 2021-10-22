@@ -94,10 +94,22 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("sortie/{sortie}", requirements={"sortie"="\d+"}, name="sortie_show", methods={"GET"})
+     * @Route("sortie/{sortie}", requirements={"sortie"="\d+"}, name="sortie_show", methods={"GET", "POST"})
      */
-    public function show(Sortie $sortie): Response
+    public function show(Sortie $sortie, Request $request): Response
     {
+        $em = $this->getDoctrine()->getManager();
+
+        if ($request->request->get('motifAnnulation')) {
+            $motifAnnulation = $request->request->get('motifAnnulation');
+            $etat = $em->getRepository(Etat::class)->findOneBy(['etat' => Etat::ETAT_ANNULE]);
+            $sortie->setEtat($etat);
+            $sortie->setMotifAnnulation($motifAnnulation);
+
+            $em->persist($sortie);
+            $em->flush();
+        }
+
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
         ]);

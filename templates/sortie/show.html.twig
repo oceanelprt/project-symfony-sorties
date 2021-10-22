@@ -63,4 +63,38 @@
             </tr>
         </tbody>
     </table>
+    {% if app.user.id == sortie.createur.id %}
+        {% if sortie.etat != 'Annulé' and sortie.etat != 'Terminé' %}
+            <a href="{{ path('sortie_edit', {'sortie': sortie.id}) }}" class="btn btn-primary">Modifier la sortie</a>
+        {% endif %}
+        {% if sortie.etat == 'En création' %}
+            <a href="{{ path('sortie_publier', {'sortie': sortie.id}) }}" class="btn btn-success">Publier la sortie</a>
+        {% endif %}
+        {% if sortie.etat == 'Ouvert' or sortie.etat == 'En création' %}
+
+            <button id="btnAnnuler{{ sortie.id }}" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-danger">Annuler la sortie</button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Annuler la sortie</h5>
+                        </div>
+                        <form method="POST">
+                            <div class="modal-body">
+                                <label for="motifAnnulation">Motif d'annulation :</label>
+                                <textarea id="motifAnnulation" name="motifAnnulation"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-primary">Confirmer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+    {% endif %}
 {% endblock %}
