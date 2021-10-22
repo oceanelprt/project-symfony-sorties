@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
+use App\Entity\Ville;
 use App\Form\FiltreType;
 use App\Form\SortieType;
+use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,6 +75,8 @@ class SortieController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $etat = $em->getRepository(Etat::class)->findOneBy(['etat' => Etat::ETAT_EN_CREATION]);
         $sortie = new Sortie();
+        $lieu = new Lieu();
+        $ville = new Ville();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
@@ -89,7 +93,9 @@ class SortieController extends AbstractController
 
         return $this->renderForm('sortie/new.html.twig', [
             'sortie' => $sortie,
-            'form' => $form,
+            'ville' => $ville,
+            'lieu' => $lieu,
+            'form' => $form->createView(),
         ]);
     }
 
