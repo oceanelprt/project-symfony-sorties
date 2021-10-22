@@ -83,6 +83,11 @@ class Sortie
      */
     private $motifAnnulation;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $archive;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -221,6 +226,18 @@ class Sortie
     public function setEtat(?Etat $etat): self
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getArchive(): ?bool
+    {
+        return $this->archive;
+    }
+
+    public function setArchive(bool $archive): self
+    {
+        $this->archive = $archive;
 
         return $this;
     }

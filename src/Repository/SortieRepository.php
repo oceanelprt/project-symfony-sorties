@@ -15,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SortieRepository extends ServiceEntityRepository
 {
-    const DAYS_BEFORE_REJECTED_REMOVAL = 30;
+    const DAYS_BEFORE_REMOVAL = 1;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -78,14 +78,12 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     /**
-    * @param $date
     * @return Sortie Toutes les sorties jusque 1 mois après leurs réalisation
     */
-    public function findByDate($date)
+    public function findNonArchivees()
     {
        return $this->createQueryBuilder('s')
-           ->andWhere('s.date >= :now')
-           ->setParameter('now', $date->modify('-1 month'))
+           ->andWhere('s.archive = 0')
            ->orderBy('s.date', 'ASC')
            ->getQuery()
            ->getResult()
@@ -95,13 +93,17 @@ class SortieRepository extends ServiceEntityRepository
     /**
     * change le statut des sorties "non commencé" -> "commencé"
     */
-    public function changeEtatForInProgress()
+    public function changeEtatForInProgress($etatEnCoursId, $etatOuvertId)
     {
+       $date = date_format(new \DateTime(), 'Y-m-d');
        return $this->createQueryBuilder('s')
            ->update()
-           ->set('s.etat', '2')
-           ->where('s.date = :now')
-           ->setParameter('now', new \DateTime())
+           ->set('s.etat', ':etat')
+           ->where('s.date LIKE :now')
+           ->andWhere('s.etat = :etatActuel')
+           ->setParameter('now','%'.$date.'%' )
+           ->setParameter('etat', $etatEnCoursId)
+           ->setParameter('etatActuel', $etatOuvertId)
            ->getQuery()
            ->execute();
     }
@@ -109,38 +111,35 @@ class SortieRepository extends ServiceEntityRepository
     /**
     * change le statut des sorties "commencé" -> "terminé"
     */
-    public function changeEtatForClosing()
+    public function changeEtatForClosing($etatFermeId, $etatEnCoursId)
     {
-       $date = new \DateTime();
+       $date = date_format(new \DateTime('-1 day'), 'Y-m-d');
        return $this->createQueryBuilder('s')
            ->update()
-           ->set('s.etat', '3')
-           ->where('s.date = :now')
-           ->setParameter('now', $date->modify('-1 day'))
+           ->set('s.etat', ':etat')
+           ->where('s.date LIKE :now')
+           ->andWhere('s.etat = :etatActuel')
+           ->setParameters([
+               'now'=>'%'.$date.'%',
+               'etat' => $etatFermeId,
+               'etatActuel' => $etatEnCoursId
+           ])
            ->getQuery()
            ->execute();
     }
 
     /**
-     * @return Sortie les sorties terminés il y a plus de 1 mois
-     */
-    public function getOldSortie()
-    {
-        return $this->getOldSortiesQueryBuilder()->getQuery()->execute();
-    }
-
-    /**
-    * suppression des sorties terminés il y a plus de 1 mois
+    * archive les sorties terminés il y a plus de 1 mois
     */
-    public function deleteOldSortie(): int
+    public function archivingOldSortie(): int
     {
-        return $this->getOldSortiesQueryBuilder()->delete()->getQuery()->execute();
+        return $this->getOldSortiesQueryBuilder()->update()->set('s.archive', '1')->getQuery()->execute();
     }
 
     private function getOldSortiesQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.date < :now')
-            ->setParameter('now', new \DateTime(-self::DAYS_BEFORE_REJECTED_REMOVAL.' days'));
+            ->setParameter('now', new \DateTime(-self::DAYS_BEFORE_REMOVAL.' month'));
     }
 }

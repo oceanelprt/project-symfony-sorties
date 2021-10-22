@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,13 +12,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ArchivingCommand extends Command
 {
     private $sortieRepository;
-    private $archiveRepository;
+    private $etatRepository;
 
     protected static $defaultName = 'app:archiving:command';
 
-    public function __construct(SortieRepository $sortieRepository)
+    public function __construct(SortieRepository $sortieRepository, EtatRepository $etatRepository)
     {
         $this->sortieRepository = $sortieRepository;
+        $this->etatRepository = $etatRepository;
 
         parent::__construct();
     }
@@ -26,7 +28,6 @@ class ArchivingCommand extends Command
     {
         $this
             ->setDescription('MAJ de la BDD')
-
         ;
     }
 
@@ -34,12 +35,23 @@ class ArchivingCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $io->note('Archivage des anciennes sorties');
+        $io->note('gestion des sorties');
 
+        // recuperation de l'id ETAT_OUVERT
+        $etatOuvertId = $this->etatRepository->findOneBy(['etat' => 'ETAT_OUVERT'])->getId();
 
-        $this->sortieRepository->deleteOldSortie();
+        // recuperation de l'id ETAT_FERME
+        $etatFermeId = $this->etatRepository->findOneBy(['etat' => 'ETAT_FERME'])->getId();
 
-        $io->success(sprintf('j\'ai delete plein de trucs'));
+        // recuperation de l'id ETAT_EN_COURS
+        $etatEnCoursId = $this->etatRepository->findOneBy(['etat' => 'ETAT_EN_COURS'])->getId();
+
+        $this->sortieRepository->changeEtatForInProgress($etatEnCoursId, $etatOuvertId);
+        $this->sortieRepository->changeEtatForClosing($etatFermeId, $etatEnCoursId);
+
+        $this->sortieRepository->archivingOldSortie();
+
+        $io->success(sprintf('j\'ai archivé et modifié pleins de trucs'));
 
        return 0;
     }
