@@ -45,8 +45,18 @@
                     {{ form_row(form.isNotInscrit) }}
                     {{ form_row(form.isPassee) }}
                 </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        {{ form_row(form.recherche) }}
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ path('sortie_index') }}" class="btn btn-danger">Réinitialiser la recherche</a>
+                    </div>
+                </div>
+
             </div>
         {{ form_end(form) }}
+
         <table class="table table-striped table-bordered">
             <thead>
             <tr>

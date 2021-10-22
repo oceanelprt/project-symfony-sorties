@@ -47,16 +47,16 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('user', $userId);
         }
         if ($isInscrit != $isNotInscrit) {
+            $qb->innerJoin('s.participants', 'p');
+
             if ($isInscrit != null) {
-                $qb->innerJoin('s.participants', 'p')
-                    ->andWhere('p.id = :user')
-                    ->setParameter('user', $userId);
+                $qb->andWhere($qb->expr()->eq('p.id',':user'));
             }
             if ($isNotInscrit != null) {
-                $qb->innerJoin('s.participants', 'n')
-                    ->andWhere('n.id != :user')
-                    ->setParameter('user', $userId);
+                $qb->andWhere($qb->expr()->notIn('p.id', $userId))
+                    ->andWhere($qb->expr()->notIn('s.createur', ':user'));
             }
+            $qb->setParameter('user', $userId);
         }
 
         if ($isPassee != null) {
@@ -71,6 +71,7 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         $qb =$qb->getQuery();
+
         return $qb->getResult();
     }
 
