@@ -180,7 +180,7 @@ class Sortie
     /**
      * @return Collection|Utilisateur[]
      */
-    public function getParticipants(): Collection
+    public function getParticipants(): ?Collection
     {
         return $this->participants;
     }
@@ -223,5 +223,15 @@ class Sortie
         $this->etat = $etat;
 
         return $this;
+    }
+
+    public function getMotifAnnulation()
+    {
+        return $this->motifAnnulation;
+    }
+
+    public function setMotifAnnulation($motifAnnulation): void
+    {
+        $this->motifAnnulation = $motifAnnulation;
     }
 }
