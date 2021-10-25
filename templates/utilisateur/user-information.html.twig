@@ -5,31 +5,35 @@
         <i class="bi bi-arrow-bar-left" style="font-size:48px;color:blue; "></i>
     </a>
     <div class="container">
-        <div class="justify-content-center">
-            <h1>{{ utilisateur.pseudo }}  </h1>
-            <br/><br/>
-            <div>
-                <label for="prenom">Prénom : </label>
-                <input type="text" readonly="readonly" name="prenom" id="prenom" class="form-control" value="{{ utilisateur.prenom }}">
+        <div class="row">
+            <div class="col align-self-center">
+                <h1>{{ utilisateur.pseudo }}</h1>
+                <br/>
+                <table class="table table-bordered table-responsive">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Prénom</th>
+                            <td>{{ utilisateur.prenom }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Nom</th>
+                            <td>{{ utilisateur.nom }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Téléphone</th>
+                            <td>{{ utilisateur.telephone }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Email</th>
+                            <td>{{ utilisateur.email }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Ville de rattachement</th>
+                            <td>{{ utilisateur.ville.nom }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div>
-                <label for="nom">Nom : </label>
-                <input type="email" readonly="readonly" name="nom" id="nom" class="form-control" value="{{ utilisateur.nom }}">
-            </div>
-            <div>
-                <label for="telephone">Téléphone : </label>
-                <input type="text" readonly="readonly" name="tel" id="telephone" class="form-control"  value="{{ utilisateur.telephone }}">
-            </div>
-            <div>
-                <label for="email">Email : </label>
-                <input type="text" readonly="readonly" name="email" id="email" class="form-control" value="{{ utilisateur.email }}">
-            </div>
-            <div>
-                <label for="ville">Ville de rattachement : </label>
-                <input type="text" readonly="readonly" name="ville-attachement" id="ville" class="form-control"
-                       value="{{ utilisateur.ville.nom }}">
-            </div>
-            <br/>
         </div>
     </div>
 
