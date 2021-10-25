@@ -241,4 +241,16 @@ class Sortie
 
         return $this;
     }
+
+    public function getMotifAnnulation()
+    {
+        return $this->motifAnnulation;
+    }
+
+    public function setMotifAnnulation($motifAnnulation): void
+    {
+        $this->motifAnnulation = $motifAnnulation;
+    }
+
+
 }
