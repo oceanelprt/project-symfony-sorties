@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sortie{% endblock %}
+
+{% block body %}
+    {% include 'icon-back.html.twig' %}
+    <div class="container">
+
+        <h1>Sortie</h1>
+
+        <br/>
+
+        <table class="table table-bordered table-responsive">
+            <tbody>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ sortie.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Etat</th>
+                    <td>{{ sortie.etat }}</td>
+                </tr>
+                {% if sortie.etat == 'Annulé' %}
+                    <tr>
+                        <th>Motif d'annulation</th>
+                        <td>{{ sortie.motifAnnulation }}</td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <th>Durée</th>
+                    <td>{{ sortie.duree }}</td>
+                </tr>
+                <tr>
+                    <th>Date</th>
+                    <td>{{ sortie.date ? sortie.date|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Date de cloture</th>
+                    <td>{{ sortie.dateCloture ? sortie.dateCloture|date('Y-m-d') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Nombre de places</th>
+                    <td>{{ sortie.nombrePlaces }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ sortie.description }}</td>
+                </tr>
+                <tr>
+                    <th>Créateur</th>
+                    <td><a href="{{ path('utilisateur_info', {'utilisateur':sortie.createur.id}) }}">{{ sortie.createur.prenom }} {{ sortie.createur.nom }}</a> ({{ sortie.createur.pseudo }})</td>
+                </tr>
+                <tr>
+                    <th>Participants</th>
+                    <td>
+                        {% if sortie.participants|length == 0 %}
+                            <p>Aucun participant</p>
+                        {% else %}
+                            <ul>
+                                {% for participant in sortie.participants %}
+                                    <li><a href="{{ path('utilisateur_info', {'utilisateur': participant.id}) }}">{{ participant.prenom }} {{ participant.nom }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        {% if app.user.id == sortie.createur.id %}
+            {% if sortie.etat != 'Annulé' and sortie.etat != 'Terminé' %}
+                <a href="{{ path('sortie_edit', {'sortie': sortie.id}) }}" class="btn btn-primary">Modifier la sortie</a>
+            {% endif %}
+            {% if sortie.etat == 'En création' %}
+                <a href="{{ path('sortie_publier', {'sortie': sortie.id}) }}" class="btn btn-success">Publier la sortie</a>
+            {% endif %}
+            {% if sortie.etat == 'Ouvert' or sortie.etat == 'En création' %}
+
+                <button id="btnAnnuler{{ sortie.id }}" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-danger">Annuler la sortie</button>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Annuler la sortie</h5>
+                            </div>
+                            <form method="POST">
+                                <div class="modal-body">
+                                    <label for="motifAnnulation">Motif d'annulation :</label>
+                                    <textarea id="motifAnnulation" name="motifAnnulation"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    <button type="submit" class="btn btn-primary">Confirmer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'icon-back.html.twig' %}
+    <h1>Editer la sortie</h1>
+
+    {{ include('sortie/_form.html.twig', {'button_label': 'Update'}) }}
+
+{% endblock %}

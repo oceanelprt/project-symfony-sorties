@@ -1,12 +1,51 @@
 {% block body %}
-    {% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
-        <ul class="nav justify-content-end">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ path('home') }}">S'inscrire</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ path('login') }}">Se connecter</a>
-            </li>
-        </ul>
-    {% endif %}
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ path('sortie_index') }}" style="padding-left:50px; padding-right:50px"><i class="bi bi-globe"></i> Sortir.com</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <span class="navbar-text"><strong>Bonjour {{ app.user.prenom }} !</strong></span>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" aria-current="page" href="{{ path('sortie_index') }}">Accueil</a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" aria-current="page" href="{{ path('utilisateur_edit', { 'utilisateur': app.user.id }) }}">Mon profil</a>
+                    </li>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+
+                        <li class="nav-item active">
+                            <a class="nav-link" aria-current="page" href="#">Villes</a>
+                        </li>
+
+                        <li class="nav-item active">
+                            <a class="nav-link" aria-current="page" href="#">Sites</a>
+                        </li>
+
+                    {% endif %}
+
+                    <li class="nav-item active">
+                        <a class="nav-link" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
+                    </li>
+
+                {% else %}
+
+                    <li class="nav-item active">
+                        <a class="nav-link" aria-current="page" href="{{ path('app_register') }}">S'inscrire</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" aria-current="page" href="{{ path('app_login') }}">Se connecter</a>
+                    </li>
+
+                {% endif %}
+
+            </ul>
+        </div>
+    </nav>
 {% endblock %}
