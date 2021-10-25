@@ -50,14 +50,14 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('user', $userId);
         }
         if ($isInscrit != $isNotInscrit) {
-            $qb->innerJoin('s.participants', 'p');
+           $qb->leftJoin('s.participants', 'p');
 
             if ($isInscrit != null) {
                 $qb->andWhere($qb->expr()->eq('p.id',':user'));
             }
             if ($isNotInscrit != null) {
-                $qb->andWhere($qb->expr()->notIn('p.id', $userId))
-                    ->andWhere($qb->expr()->notIn('s.createur', ':user'));
+                $qb->andWhere('p.id != :user OR p.id IS NULL')
+                   ->andWhere($qb->expr()->notIn('s.createur', ':user'));
             }
             $qb->setParameter('user', $userId);
         }
@@ -67,14 +67,12 @@ class SortieRepository extends ServiceEntityRepository
             $qb->andWhere('s.date BETWEEN :from AND :to')
                 ->setParameter('to', $date)
                 ->setParameter('from', $dateLastMonth->modify('-1 month'));
-
         } else {
             $qb->andWhere($qb->expr()->gt('s.date',':now'))
                 ->setParameter('now', $date->modify('-1 month'));
         }
 
         $qb =$qb->getQuery();
-
         return $qb->getResult();
     }
 
