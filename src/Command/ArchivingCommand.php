@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\Etat;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Symfony\Component\Console\Command\Command;
@@ -38,13 +39,13 @@ class ArchivingCommand extends Command
         $io->note('gestion des sorties');
 
         // recuperation de l'id ETAT_OUVERT
-        $etatOuvertId = $this->etatRepository->findOneBy(['etat' => 'ETAT_OUVERT'])->getId();
+        $etatOuvertId = $this->etatRepository->findOneBy(['etat' => Etat::ETAT_OUVERT])->getId();
 
         // recuperation de l'id ETAT_FERME
-        $etatFermeId = $this->etatRepository->findOneBy(['etat' => 'ETAT_FERME'])->getId();
+        $etatFermeId = $this->etatRepository->findOneBy(['etat' => Etat::ETAT_FERME])->getId();
 
         // recuperation de l'id ETAT_EN_COURS
-        $etatEnCoursId = $this->etatRepository->findOneBy(['etat' => 'ETAT_EN_COURS'])->getId();
+        $etatEnCoursId = $this->etatRepository->findOneBy(['etat' => Etat::ETAT_EN_COURS])->getId();
 
         $this->sortieRepository->changeEtatForInProgress($etatEnCoursId, $etatOuvertId);
         $this->sortieRepository->changeEtatForClosing($etatFermeId, $etatEnCoursId);
