@@ -84,7 +84,7 @@
                     <td>{{ sortie.dateCloture ? sortie.dateCloture|date("d/m/Y") : '' }}</td>
                     <td>{{ sortie.participants|length }}/{{ sortie.nombrePlaces }}</td>
                     <td>{{ sortie.etat }}</td>
-                    <td style="text-align: center">{% if isInscrit == true %}<i class="bi bi-check"></i>{% endif %}</td>
+                    <td style="text-align: center; font-size:x-large; color:green">{% if isInscrit == true %}<i class="bi bi-check"></i>{% endif %}</td>
                     <td><a href="{{ path('utilisateur_info', {'utilisateur': sortie.createur.id}) }}">{{ sortie.createur.prenom }} {{ sortie.createur.nom }}</a></td>
                     <td>
                         <a href="{{ path('sortie_show', {'sortie': sortie.id}) }}" class="btn btn-primary">Afficher</a>
