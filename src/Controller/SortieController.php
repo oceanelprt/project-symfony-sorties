@@ -84,6 +84,8 @@ class SortieController extends AbstractController
         $villeRepository = $this->getDoctrine()->getRepository(Ville::class);
         $lieuRepository = $this->getDoctrine()->getRepository(Lieu::class);
 
+        $data = $request->request->get('sortie');
+dump($data);
         if ($form->isSubmitted() && $form->isValid()) {
 
             if($request->get('btn-plus') == "-") {

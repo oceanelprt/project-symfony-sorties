@@ -71,6 +71,10 @@ class SortieType extends AbstractType
                 'required' => true,
                 'mapped' => false
             ])
+            ->add('nomLieu', TextType::class, [
+                'label' => "Nom du lieu",
+                'mapped' => false
+            ])
             ->add('latitude', NumberType::class, [
                 'label' => "Latitude",
                 'mapped' => false

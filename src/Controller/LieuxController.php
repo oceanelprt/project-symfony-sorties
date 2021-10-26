@@ -29,6 +29,5 @@ class LieuxController extends AbstractController
         $jsonLieux = $serializer->serialize($lieux, 'json', ['groups' => ['show-lieux']]);
 
         return new JsonResponse(json_decode($jsonLieux));
-        //return $this->json(['lieux' => $jsonLieux]);
     }
 }
