@@ -88,7 +88,7 @@
                     <td><a href="{{ path('utilisateur_info', {'utilisateur': sortie.createur.id}) }}">{{ sortie.createur.prenom }} {{ sortie.createur.nom }}</a></td>
                     <td>
                         <a href="{{ path('sortie_show', {'sortie': sortie.id}) }}" class="btn btn-primary">Afficher</a>
-                        {% if app.user.id == sortie.createur.id %}
+                        {% if app.user.id == sortie.createur.id or is_granted('ROLE_ADMIN') %}
                             {% if sortie.etat != 'Annulé' %}
                                 <a href="{{ path('sortie_edit', {'sortie': sortie.id}) }}" class="btn btn-primary">Modifier</a>
                             {% endif %}
