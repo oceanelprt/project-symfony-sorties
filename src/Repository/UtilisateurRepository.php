@@ -36,6 +36,20 @@ class UtilisateurRepository extends ServiceEntityRepository implements PasswordU
         $this->_em->flush();
     }
 
+    /**
+     * @param $id
+     * @return int|mixed|string supprime l'utilisateur par l'id
+     */
+    public function deleteUser($id)
+    {
+        return $this->createQueryBuilder('u')
+            ->delete()
+            ->where('u.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Utilisateur[] Returns an array of Utilisateur objects
     //  */
