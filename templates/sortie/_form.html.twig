@@ -9,30 +9,36 @@
                 {{ form_row(form.duree) }}
                 {{ form_row(form.nombrePlaces) }}
                 {{ form_row(form.description) }}
-            </div>
-            <div class="col" style="text-align:right">
-                <label for="ville-select">Ville</label>
-                <select id="ville-select">
-                    <option disabled selected value="">Choisir une ville</option>
-                    {% for ville in villes %}
-                        <option  value="{{ ville.id }}">{{ ville.codePostal }} - {{ ville.nom }}</option>
-                    {% endfor %}
-                </select>
-                <br/><br/>
-                <label for="lieu-select">Lieu</label>
-                <select id="lieu-select">
-                    <option disabled selected value="">Veuillez choisir une ville</option>
-                </select>
-                <br/><br/>
-                <input type="button" id="btn-plus" value="+"></input>
-
-                <div class="form-group">
-                    <br/><label hidden="true" id="lbl-rue" for="rue"> Rue</label> <br/> <input hidden="true" type="text" name="rue" id="rue" value=""/>
-                    <br/><label hidden="true" id="lbl-latitude" for="latitude"> Latitude</label> <br/> <input hidden="true" type="number" name="latitude" id="latitude" value="" min="-85,05112878" max="85,05112878" step=0.01/>
-                    <br/><label hidden="true" id="lbl-longitude" for="longitude"> Longitude</label> <br/> <input hidden="true" type="number" name="longitude" id="longitude" value="" min="-180" max="180" />
+                {{ form_row(form.ville) }}
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Nouveau lieu...
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                {{ form_row(form.latitude) }}
+                                {{ form_row(form.longitude) }}
+                                {{ form_row(form.rue) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Choisir un lieu déjà existant
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                {{ form_row(form.lieu) }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-            </div>
                 <button type="submit" class="btn btn-primary">Sauvegarde</button>
                 {{ form_end(form) }}
 

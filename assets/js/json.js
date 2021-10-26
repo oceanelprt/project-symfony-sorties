@@ -1,7 +1,6 @@
 import $ from 'jquery';
 
 $('#ville-select').ready(function () {
-    console.log("ufrjhu")
     $('#ville-select').change(function() {
         let idVille = document.getElementById("ville-select").value;
         console.log(idVille);
@@ -43,3 +42,30 @@ $('#btn-plus').ready(function () {
         document.getElementById("lbl-longitude").hidden = valeur;
     });
 });
+
+$('#sortie_ville').ready(function() {
+    var $sport = $('#sortie_ville');
+
+    // When sport gets selected ...
+    $sport.change(function () {
+        // ... retrieve the corresponding form.
+        var $form = $(this).closest('form');
+        // Simulate form data, but only include the selected sport value.
+        var data = {};
+        data[$sport.attr('name')] = $sport.val();
+        // Submit data via AJAX to the form's action path.
+        $.ajax({
+            url: $form.attr('action'),
+            type: $form.attr('method'),
+            data: data,
+            success: function (html) {
+                // Replace current position field ...
+                $('#meetup_position').replaceWith(
+                    // ... with the returned one from the AJAX response.
+                    $(html).find('#meetup_position')
+                );
+                // Position field now displays the appropriate positions.
+            }
+        });
+    });
+})

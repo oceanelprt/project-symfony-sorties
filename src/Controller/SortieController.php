@@ -72,9 +72,7 @@ class SortieController extends AbstractController
      * @Route("sortie/creation", name="sortie_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
-    { var_dump("ville-select : ", $request->get('ville-select'));
-     var_dump("lieu-select : ", $request->get('lieu-select'));
-     var_dump("btn-plus : ", $request->get('btn-plus'));
+    {
         $em = $this->getDoctrine()->getManager();
         $etat = $em->getRepository(Etat::class)->findOneBy(['etat' => Etat::ETAT_EN_CREATION]);
 
@@ -83,23 +81,22 @@ class SortieController extends AbstractController
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
-        $villerepository = $this->getDoctrine()->getRepository(Ville::class);
+        $villeRepository = $this->getDoctrine()->getRepository(Ville::class);
         $lieuRepository = $this->getDoctrine()->getRepository(Lieu::class);
-        $villes = $villerepository->findAll();
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             if($request->get('btn-plus') == "-") {
 
-                $ville = $villerepository->find($request->get('ville-select'));
+                $ville = $villeRepository->find($request->get('ville-select'));
                 $stringNom = (string) $request->get('lieu-select');
                 $lieu->setVille($ville);
                 $lieu->setNom($stringNom);
                 $lieu->setLatitude($request->get('latitude'));
                 $lieu->setLongitude($request->get('longitude'));
                 $lieu->setRue( $request->get('rue'));
-
                 $em->persist($lieu);
+
             }
             else {
 
@@ -112,6 +109,7 @@ class SortieController extends AbstractController
             $sortie->setEtat($etat);
             $sortie->setLieu($lieu);
 
+
             $em->persist($sortie);
             $em->flush();
 
@@ -119,8 +117,6 @@ class SortieController extends AbstractController
         }
 
         return $this->render('sortie/new.html.twig', [
-            'sortie' => $sortie,
-            'villes' => $villes,
             'form' => $form->createView(),
         ]);
     }
