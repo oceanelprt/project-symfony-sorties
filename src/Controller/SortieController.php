@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use App\Entity\Ville;
@@ -71,30 +72,55 @@ class SortieController extends AbstractController
      * @Route("sortie/creation", name="sortie_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
-    {
+    { var_dump("ville-select : ", $request->get('ville-select'));
+     var_dump("lieu-select : ", $request->get('lieu-select'));
+     var_dump("btn-plus : ", $request->get('btn-plus'));
         $em = $this->getDoctrine()->getManager();
         $etat = $em->getRepository(Etat::class)->findOneBy(['etat' => Etat::ETAT_EN_CREATION]);
-        $sortie = new Sortie();
+
         $lieu = new Lieu();
-        $ville = new Ville();
+        $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $sortie->setCreateur($this->getUser());
+        $villerepository = $this->getDoctrine()->getRepository(Ville::class);
+        $lieuRepository = $this->getDoctrine()->getRepository(Lieu::class);
+        $villes = $villerepository->findAll();
 
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if($request->get('btn-plus') == "-") {
+
+                $ville = $villerepository->find($request->get('ville-select'));
+                $stringNom = (string) $request->get('lieu-select');
+                $lieu->setVille($ville);
+                $lieu->setNom($stringNom);
+                $lieu->setLatitude($request->get('latitude'));
+                $lieu->setLongitude($request->get('longitude'));
+                $lieu->setRue( $request->get('rue'));
+
+                $em->persist($lieu);
+            }
+            else {
+
+                $idLieu = $request->get('lieu-select');
+
+                $lieu = $lieuRepository->find($idLieu);
+            }
+
+            $sortie->setCreateur($this->getUser());
             $sortie->setEtat($etat);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($sortie);
-            $entityManager->flush();
+            $sortie->setLieu($lieu);
+
+            $em->persist($sortie);
+            $em->flush();
 
             return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('sortie/new.html.twig', [
+        return $this->render('sortie/new.html.twig', [
             'sortie' => $sortie,
-            'ville' => $ville,
-            'lieu' => $lieu,
+            'villes' => $villes,
             'form' => $form->createView(),
         ]);
     }

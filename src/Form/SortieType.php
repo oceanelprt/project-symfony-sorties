@@ -49,7 +49,6 @@ class SortieType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => "Description de la sortie"
             ])
-            ->add('lieu')
         ;
     }
 

@@ -16,3 +16,4 @@ import './styles/app.scss';
 import './bootstrap';
 
 import './js/ajax.js';
+import './js/json.js';

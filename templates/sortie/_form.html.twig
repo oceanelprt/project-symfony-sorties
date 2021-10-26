@@ -11,9 +11,28 @@
                 {{ form_row(form.description) }}
             </div>
             <div class="col" style="text-align:right">
-                {{ form_row(form.lieu) }}
-            </div>
+                <label for="ville-select">Ville</label>
+                <select id="ville-select">
+                    <option disabled selected value="">Choisir une ville</option>
+                    {% for ville in villes %}
+                        <option  value="{{ ville.id }}">{{ ville.codePostal }} - {{ ville.nom }}</option>
+                    {% endfor %}
+                </select>
+                <br/><br/>
+                <label for="lieu-select">Lieu</label>
+                <select id="lieu-select">
+                    <option disabled selected value="">Veuillez choisir une ville</option>
+                </select>
+                <br/><br/>
+                <input type="button" id="btn-plus" value="+"></input>
 
+                <div class="form-group">
+                    <br/><label hidden="true" id="lbl-rue" for="rue"> Rue</label> <br/> <input hidden="true" type="text" name="rue" id="rue" value=""/>
+                    <br/><label hidden="true" id="lbl-latitude" for="latitude"> Latitude</label> <br/> <input hidden="true" type="number" name="latitude" id="latitude" value="" min="-85,05112878" max="85,05112878" step=0.01/>
+                    <br/><label hidden="true" id="lbl-longitude" for="longitude"> Longitude</label> <br/> <input hidden="true" type="number" name="longitude" id="longitude" value="" min="-180" max="180" />
+                </div>
+
+            </div>
                 <button type="submit" class="btn btn-primary">Sauvegarde</button>
                 {{ form_end(form) }}
 
