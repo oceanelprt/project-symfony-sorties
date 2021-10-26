@@ -41,16 +41,15 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     /**
      * @param Utilisateur $entity
      */
-    public function setPassword(Utilisateur $entity): void
+    private function setPassword(Utilisateur $entity): void
     {
         $pass = $entity->getPassword();
 
         $entity->setPassword(
             $this->passwordEncoder->encodePassword(
                 $entity,
-                $pass
-            )
-        );
+                $pass))
+            ->setIsExpired(0);
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
     }

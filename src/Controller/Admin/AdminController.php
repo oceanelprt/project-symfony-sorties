@@ -16,7 +16,7 @@ class AdminController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        return parent::index();
+        return $this->render('admin/dashboard.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -28,6 +28,6 @@ class AdminController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-list', Utilisateur::class);
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', Utilisateur::class);
     }
 }
