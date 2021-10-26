@@ -10,9 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\BatchActionDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
@@ -67,13 +65,7 @@ class UtilisateurCrudController extends AbstractCrudController
         $entityManager = $this->getDoctrine()->getManager();
 
         foreach ($batchActionDto->getEntityIds() as $id) {
-            $entityManager->getRepository(Utilisateur::class)
-                ->createQueryBuilder('u')
-                ->delete()
-                ->where('u.id = :id')
-                ->setParameter('id', $id)
-                ->getQuery()
-                ->getResult();
+            $entityManager->getRepository(Utilisateur::class)->deleteUser($id);
         }
             $entityManager->flush();
 
