@@ -82,14 +82,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private $isExpired = true;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $photo;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $photoFileName;
 
     public function __construct()
     {
@@ -334,15 +329,5 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->photo = $photo;
 
         return $this;
-    }
-
-    public function getPhotoFileName()
-    {
-        return $this->photoFileName;
-    }
-
-    public function setPhotoFileName($photoFileName): void
-    {
-        $this->photoFileName = $photoFileName;
     }
 }

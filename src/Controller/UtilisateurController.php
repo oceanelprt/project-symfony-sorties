@@ -4,16 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
-use App\Service\FileUploader;
+use App\Services\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/utilisateur", name="utilisateur_")
@@ -35,7 +33,7 @@ class UtilisateurController extends AbstractController
      * @Security("is_granted('utilisateur_edit', utilisateur)")
      */
     public function editUser(Utilisateur $utilisateur, Request $request, FileUploader $fileUploader,
-                             UserPasswordHasherInterface $userPasswordHasherInterface, SluggerInterface $slugger): Response
+                             UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
         $form->handleRequest($request);
