@@ -81,6 +81,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $isExpired = true;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $photo;
+
     public function __construct()
     {
         $this->sortiesCreees = new ArrayCollection();
@@ -307,8 +312,22 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->isExpired;
     }
 
-    public function setIsExpired(bool $isExpired): void
+    public function setIsExpired(bool $isExpired): self
     {
         $this->isExpired = $isExpired;
+
+        return $this;
+    }
+
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto($photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
     }
 }
