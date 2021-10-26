@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
+use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -33,7 +34,7 @@ class UtilisateurController extends AbstractController
      * @Route("/{utilisateur}/edit", requirements={"utilisateur"="\d+"}, name="edit")
      * @Security("is_granted('utilisateur_edit', utilisateur)")
      */
-    public function editUser(Utilisateur $utilisateur, Request $request,
+    public function editUser(Utilisateur $utilisateur, Request $request, FileUploader $fileUploader,
                              UserPasswordHasherInterface $userPasswordHasherInterface, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
@@ -53,27 +54,9 @@ class UtilisateurController extends AbstractController
             /** @var UploadedFile $photo */
             $photo = $form->get('photo')->getData();
 
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
             if ($photo) {
-                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $photo->move(
-                        $this->getParameter('photos_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $utilisateur->setPhoto($newFilename);
+                $photoFileName = $fileUploader->upload($photo);
+                $utilisateur->setPhoto($photoFileName);
             }
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -85,7 +68,8 @@ class UtilisateurController extends AbstractController
         }
 
         return $this->render('utilisateur/user-edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'photo' => 'photos/' . $utilisateur->getPhoto()
         ]);
     }
 }

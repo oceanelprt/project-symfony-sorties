@@ -86,6 +86,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $photo;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $photoFileName;
+
     public function __construct()
     {
         $this->sortiesCreees = new ArrayCollection();
@@ -329,5 +334,15 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->photo = $photo;
 
         return $this;
+    }
+
+    public function getPhotoFileName()
+    {
+        return $this->photoFileName;
+    }
+
+    public function setPhotoFileName($photoFileName): void
+    {
+        $this->photoFileName = $photoFileName;
     }
 }
