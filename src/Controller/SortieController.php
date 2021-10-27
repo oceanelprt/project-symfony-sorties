@@ -85,37 +85,31 @@ class SortieController extends AbstractController
         $lieuRepository = $this->getDoctrine()->getRepository(Lieu::class);
 
         $data = $request->request->get('sortie');
-dump($data);
+
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if($request->get('btn-plus') == "-") {
-
-                $ville = $villeRepository->find($request->get('ville-select'));
-                $stringNom = (string) $request->get('lieu-select');
-                $lieu->setVille($ville);
-                $lieu->setNom($stringNom);
-                $lieu->setLatitude($request->get('latitude'));
-                $lieu->setLongitude($request->get('longitude'));
-                $lieu->setRue( $request->get('rue'));
-                $em->persist($lieu);
-
-            }
-            else {
-
-                $idLieu = $request->get('lieu-select');
-
-                $lieu = $lieuRepository->find($idLieu);
-            }
-
-            $sortie->setCreateur($this->getUser());
-            $sortie->setEtat($etat);
-            $sortie->setLieu($lieu);
-
-
-            $em->persist($sortie);
-            $em->flush();
-
-            return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
+//            $ville = $villeRepository->find($request->get('ville-select'));
+//            $stringNom = (string) $request->get('lieu-select');
+//            $lieu->setVille($ville);
+//            $lieu->setNom($stringNom);
+//            $lieu->setLatitude($request->get('latitude'));
+//            $lieu->setLongitude($request->get('longitude'));
+//            $lieu->setRue( $request->get('rue'));
+//            $em->persist($lieu);
+//
+//            $idLieu = $request->get('lieu-select');
+//
+//            $lieu = $lieuRepository->find($idLieu);
+//
+//            $sortie->setCreateur($this->getUser());
+//            $sortie->setEtat($etat);
+//            $sortie->setLieu($lieu);
+//
+//
+//            $em->persist($sortie);
+//            $em->flush();
+//
+//            return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('sortie/new.html.twig', [

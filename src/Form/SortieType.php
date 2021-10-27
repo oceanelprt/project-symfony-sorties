@@ -64,11 +64,20 @@ class SortieType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => "Description de la sortie"
             ])
-            ->add('ville', EntityType::class, ['class' => Ville::class, 'choice_label' => 'nom',
+            ->add('ville', EntityType::class, ['class' => Ville::class, 'choice_label' => 'nom', 'placeholder' => 'Choisir une ville',
                 'query_builder' => function(EntityRepository $repository) {
                     return $repository->createQueryBuilder('qb')->orderBy('qb.nom', 'ASC');
                 },
+                'label' => 'Choisir une ville',
                 'required' => true,
+                'mapped' => false
+            ])
+            ->add('nomVille', TextType::class, [
+                'label' => "Nom de la ville",
+                'mapped' => false
+            ])
+            ->add('codePostal', TextType::class, [
+                'label' => "Code postal",
                 'mapped' => false
             ])
             ->add('nomLieu', TextType::class, [

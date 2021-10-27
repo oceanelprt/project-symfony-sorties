@@ -48,18 +48,20 @@ $('#sortie_ville').ready(function() {
         var data = {};
         data[$ville.attr('name')] = $ville.val();
         // Submit data via AJAX to the form's action path.
-        $.ajax({
-            url : "/listeLieux/" + $ville.val(),
-            data : data,
-            success: function(lieux) {
-                $('#sortie_lieu').empty();
+        if($ville.val()) {
+            $.ajax({
+                url : "/listeLieux/" + $ville.val(),
+                data : data,
+                success: function(lieux) {
+                    $('#sortie_lieu').empty();
 
-                for (const lieu of lieux) {
-                    var o = new Option(lieu.nom, lieu.id);
-                    /// jquerify the DOM object 'o' so we can use the html method
-                    $("#sortie_lieu").append(o);
+                    for (const lieu of lieux) {
+                        var o = new Option(lieu.nom, lieu.id);
+                        /// jquerify the DOM object 'o' so we can use the html method
+                        $("#sortie_lieu").append(o);
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 })
