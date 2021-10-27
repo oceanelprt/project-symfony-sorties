@@ -59,6 +59,8 @@ $('#sortie_ville').ready(function() {
                         /// jquerify the DOM object 'o' so we can use the html method
                         $("#sortie_lieu").append(o);
                     }
+
+                    $('#divChoiceVille').show();
                 }
             });
         }

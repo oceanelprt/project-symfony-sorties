@@ -155,16 +155,54 @@ class SortieController extends AbstractController
      */
     public function edit(Request $request, Sortie $sortie): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $lieuRepository = $em->getRepository(Lieu::class);
+        $villeRepository = $em->getRepository(Ville::class);
+
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
+        $lieu = new Lieu();
+        $ville = new Ville();
+
+        $data = $request->request->get('sortie');
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $sortie->setCreateur($this->getUser());
+
+            //Si création d'une ville
+            if ($data['choiceVille'] === "choiceNewVille") {
+                $ville->setCodePostal($data['codePostal']);
+                $ville->setNom($data['nomVille']);
+
+                $em->persist($ville);
+            } else { //Si choix d'une ville
+                $ville = $villeRepository->find($data['ville']);
+            }
+
+            //Si création d'un lieu
+            if ($data['choiceLieu'] === "choiceNewLieu") {
+                $lieu->setNom($data['nomLieu']);
+                $lieu->setLatitude($data['latitude']);
+                $lieu->setLatitude($data['latitude']);
+                $lieu->setLongitude($data['longitude']);
+                $lieu->setRue($data['rue']);
+                $lieu->setVille($ville);
+
+                $em->persist($ville);
+            } else { //Si choix d'un lieu
+                $lieu = $lieuRepository->find($data['lieu']);
+            }
+
+            $sortie->setLieu($lieu);
+
+            $em->persist($sortie);
+            $em->flush();
+
             return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('sortie/edit.html.twig', [
-            'sortie' => $sortie,
             'form' => $form,
         ]);
     }

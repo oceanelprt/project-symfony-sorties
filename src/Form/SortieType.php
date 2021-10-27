@@ -106,10 +106,13 @@ class SortieType extends AbstractType
                 'required' => false,
                 'mapped' => false
             ])
-            ->add('lieu', ChoiceType::class, [
-                'label' => "Lieu",
-                'required' => false,
-                'mapped' => false
+            ->add('lieu', EntityType::class, [
+                'class' => Lieu::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Choisir un lieu',
+                'query_builder' => function(EntityRepository $repository) {
+                    return $repository->createQueryBuilder('qb')->orderBy('qb.nom', 'ASC');
+                },
             ])
             ->add('choiceVille', HiddenType::class, [
                 'required' => false,
@@ -118,7 +121,7 @@ class SortieType extends AbstractType
             ->add('choiceLieu', HiddenType::class, [
                 'required' => false,
                 'mapped' => false
-            ]);;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

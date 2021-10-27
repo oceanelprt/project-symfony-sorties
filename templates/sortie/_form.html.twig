@@ -65,8 +65,8 @@
                             </button>
                         </h2>
                         <div id="collapseChoiceLieu" class="accordion-collapse collapse" aria-labelledby="headingChoiceLieu" data-bs-parent="#accordionLieu">
-                            <div class="accordion-body">
-                                {{ form_row(form.lieu) }}
+                            <div class="accordion-body" style="display: none" id="divChoiceVille">
+                                {{ form_widget(form.lieu) }}
                             </div>
                         </div>
                     </div>
