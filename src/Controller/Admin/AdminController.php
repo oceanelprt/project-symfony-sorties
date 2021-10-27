@@ -28,7 +28,7 @@ class AdminController extends AbstractDashboardController
     /**
      * @Route("/admin/importation", name="importation_csv")
      */
-    public function importationCdv(Request $request, EntityManagerInterface $em, ImportationCsv $importationCsv): Response
+    public function importationCsv(Request $request, EntityManagerInterface $em, ImportationCsv $importationCsv): Response
     {
         $isPost = false;
         $utilisateursExistants = new ArrayCollection();
