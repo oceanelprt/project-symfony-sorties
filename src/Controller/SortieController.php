@@ -72,45 +72,40 @@ class SortieController extends AbstractController
      * @Route("sortie/creation", name="sortie_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
-    {
+    {            dump($request->request->get('sortie'));
+
         $em = $this->getDoctrine()->getManager();
+        $villeRepository = $this->getDoctrine()->getRepository(Ville::class);
+        $lieuRepository = $this->getDoctrine()->getRepository(Lieu::class);
+
         $etat = $em->getRepository(Etat::class)->findOneBy(['etat' => Etat::ETAT_EN_CREATION]);
 
         $lieu = new Lieu();
+        $ville = new Ville();
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
-        $villeRepository = $this->getDoctrine()->getRepository(Ville::class);
-        $lieuRepository = $this->getDoctrine()->getRepository(Lieu::class);
-
         $data = $request->request->get('sortie');
-dump($data);
+
         if ($form->isSubmitted() && $form->isValid()) {
-
-            if($request->get('btn-plus') == "-") {
-
-                $ville = $villeRepository->find($request->get('ville-select'));
-                $stringNom = (string) $request->get('lieu-select');
-                $lieu->setVille($ville);
-                $lieu->setNom($stringNom);
-                $lieu->setLatitude($request->get('latitude'));
-                $lieu->setLongitude($request->get('longitude'));
-                $lieu->setRue( $request->get('rue'));
-                $em->persist($lieu);
-
-            }
-            else {
-
-                $idLieu = $request->get('lieu-select');
-
-                $lieu = $lieuRepository->find($idLieu);
-            }
-
-            $sortie->setCreateur($this->getUser());
             $sortie->setEtat($etat);
-            $sortie->setLieu($lieu);
+            $sortie->setCreateur($this->getUser());
 
+            //Si création de ville
+            if ($data['choiceVille'] === "choiceNewVille") {
+                $ville->setCodePostal($data['codePostal']);
+                $ville->setNom($data['nomVille']);
+
+                $em->persist($ville);
+            } else { //Si choix d'une ville
+                $ville = $villeRepository->find($data['ville']);
+                $lieu = $lieuRepository->find($data['lieu']);
+
+                $sortie->setLieu($lieu);
+            }
+            $lieu = $lieuRepository->find(1);
+            $sortie->setLieu($lieu);
 
             $em->persist($sortie);
             $em->flush();

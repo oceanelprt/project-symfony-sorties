@@ -7,6 +7,8 @@
 
 //import $ from 'jquery';
 
+import $ from "jquery";
+
 window.$ = window.jQuery = require('jquery');
 
 // any CSS you import will output into a single css file (app.scss in this case)
@@ -16,3 +18,8 @@ import './styles/app.scss';
 import './bootstrap';
 
 import './js/ajax.js';
+import './js/formSortie.js'
+
+
+
+
