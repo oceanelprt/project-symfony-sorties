@@ -13,12 +13,11 @@ $('#accordionVille').ready(function() {
 })
 
 $('#accordionLieu').ready(function() {
-
     $('#collapseChoiceLieu').click(function () {
         $('#sortie_choiceLieu').val('choiceLieu');
     })
 
-    $('#collapseNewVille').click(function () {
+    $('#collapseNewLieu').click(function () {
         $('#sortie_choiceLieu').val('choiceNewLieu');
 
     })

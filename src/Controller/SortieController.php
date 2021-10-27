@@ -72,8 +72,7 @@ class SortieController extends AbstractController
      * @Route("sortie/creation", name="sortie_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
-    {            dump($request->request->get('sortie'));
-
+    {
         $em = $this->getDoctrine()->getManager();
         $villeRepository = $this->getDoctrine()->getRepository(Ville::class);
         $lieuRepository = $this->getDoctrine()->getRepository(Lieu::class);
@@ -92,7 +91,7 @@ class SortieController extends AbstractController
             $sortie->setEtat($etat);
             $sortie->setCreateur($this->getUser());
 
-            //Si création de ville
+            //Si création d'une ville
             if ($data['choiceVille'] === "choiceNewVille") {
                 $ville->setCodePostal($data['codePostal']);
                 $ville->setNom($data['nomVille']);
@@ -104,8 +103,20 @@ class SortieController extends AbstractController
 
                 $sortie->setLieu($lieu);
             }
-            $lieu = $lieuRepository->find(1);
-            $sortie->setLieu($lieu);
+            //Si création d'un lieu
+            if ($data['choiceLieu'] === "choiceNewLieu") { // ça passe pas là dedans je comprends pas pk
+                $lieu->setNom($data['nomLieu']);
+                $lieu->setRue($data['rue']);
+                $lieu->setLongitude($data['longitude']);
+                $lieu->setLatitude($data['latitude']);
+                $lieu->setVille($ville);
+
+                $em->persist($lieu);
+                $sortie->setLieu($lieu);
+            } else { //Si choix d'un lieu
+                $lieu = $lieuRepository->find($data['lieu']);
+                $sortie->setLieu($lieu);
+            }
 
             $em->persist($sortie);
             $em->flush();
