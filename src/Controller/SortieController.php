@@ -99,24 +99,23 @@ class SortieController extends AbstractController
                 $em->persist($ville);
             } else { //Si choix d'une ville
                 $ville = $villeRepository->find($data['ville']);
-                $lieu = $lieuRepository->find($data['lieu']);
-
-                $sortie->setLieu($lieu);
             }
+
             //Si création d'un lieu
-            if ($data['choiceLieu'] === "choiceNewLieu") { // ça passe pas là dedans je comprends pas pk
+            if ($data['choiceLieu'] === "choiceNewLieu") {
                 $lieu->setNom($data['nomLieu']);
-                $lieu->setRue($data['rue']);
-                $lieu->setLongitude($data['longitude']);
                 $lieu->setLatitude($data['latitude']);
+                $lieu->setLatitude($data['latitude']);
+                $lieu->setLongitude($data['longitude']);
+                $lieu->setRue($data['rue']);
                 $lieu->setVille($ville);
 
-                $em->persist($lieu);
-                $sortie->setLieu($lieu);
+                $em->persist($ville);
             } else { //Si choix d'un lieu
                 $lieu = $lieuRepository->find($data['lieu']);
-                $sortie->setLieu($lieu);
             }
+
+            $sortie->setLieu($lieu);
 
             $em->persist($sortie);
             $em->flush();
