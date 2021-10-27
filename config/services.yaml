@@ -33,3 +33,7 @@ services:
         arguments:
             $targetDirectory: '%photos_directory%'
 
+    App\Services\ImportationCsv:
+        arguments:
+            $targetDirectory: '%kernel.project_dir%/public/csv/'
+            $fileName: 'utilisateurs.csv'

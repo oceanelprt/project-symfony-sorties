@@ -118,6 +118,9 @@
     "laminas/laminas-code": {
         "version": "4.4.3"
     },
+    "league/csv": {
+        "version": "9.7.2"
+    },
     "nikic/php-parser": {
         "version": "v4.13.0"
     },
@@ -390,6 +393,9 @@
             "version": "4.4",
             "ref": "b46e4f8f1adb2864f0aa9c0ff57aea3324a07199"
         }
+    },
+    "symfony/serializer": {
+        "version": "v5.3.8"
     },
     "symfony/service-contracts": {
         "version": "v2.4.0"

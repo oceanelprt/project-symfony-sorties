@@ -66,7 +66,8 @@ class AppFixtures extends Fixture
                 $lieu->setNom($faker->streetAddress())
                     ->setVille($ville)
                     ->setLatitude($faker->latitude())
-                    ->setLongitude($faker->longitude());
+                    ->setLongitude($faker->longitude())
+                    ->setRue($faker->streetName());
 
                 $manager->persist($lieu);
 
