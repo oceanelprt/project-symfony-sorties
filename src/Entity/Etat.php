@@ -16,6 +16,7 @@ class Etat
     const ETAT_OUVERT = 'Ouvert';
     const ETAT_FERME = 'Fermé';
     const ETAT_ANNULE = 'Annulé';
+    const ETAT_EN_COURS = 'En cours';
 
     /**
      * @ORM\Id

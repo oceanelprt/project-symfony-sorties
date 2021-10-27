@@ -83,6 +83,11 @@ class Sortie
      */
     private $motifAnnulation;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $archive;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -180,7 +185,7 @@ class Sortie
     /**
      * @return Collection|Utilisateur[]
      */
-    public function getParticipants(): ?Collection
+    public function getParticipants(): Collection
     {
         return $this->participants;
     }
@@ -225,6 +230,18 @@ class Sortie
         return $this;
     }
 
+    public function getArchive(): ?bool
+    {
+        return $this->archive;
+    }
+
+    public function setArchive(bool $archive): self
+    {
+        $this->archive = $archive;
+
+        return $this;
+    }
+
     public function getMotifAnnulation()
     {
         return $this->motifAnnulation;
@@ -233,5 +250,10 @@ class Sortie
     public function setMotifAnnulation($motifAnnulation): void
     {
         $this->motifAnnulation = $motifAnnulation;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getNom();
     }
 }

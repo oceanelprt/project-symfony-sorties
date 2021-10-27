@@ -47,7 +47,7 @@ class SortieController extends AbstractController
                 $sorties = $sortieRepository->findSortiesByFiltre($filtre, $userId, $isOrganisateur, $isInscrit, $isNotInscrit, $isPassee, $date);
             }
         } else {
-            $sorties = $sortieRepository->findByDate($date);
+            $sorties = $sortieRepository->findNonArchivees($date);
         }
 
         if ($request->request->get('motifAnnulation')) {
