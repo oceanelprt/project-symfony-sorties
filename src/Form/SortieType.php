@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -64,42 +65,60 @@ class SortieType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => "Description de la sortie"
             ])
-            ->add('ville', EntityType::class, ['class' => Ville::class, 'choice_label' => 'nom', 'placeholder' => 'Choisir une ville',
+            ->add('ville', EntityType::class, [
+                'class' => Ville::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Choisir une ville',
                 'query_builder' => function(EntityRepository $repository) {
                     return $repository->createQueryBuilder('qb')->orderBy('qb.nom', 'ASC');
                 },
                 'label' => 'Choisir une ville',
-                'required' => true,
+                'required' => false,
                 'mapped' => false
             ])
             ->add('nomVille', TextType::class, [
                 'label' => "Nom de la ville",
+                'required' => false,
                 'mapped' => false
             ])
             ->add('codePostal', TextType::class, [
                 'label' => "Code postal",
+                'required' => false,
                 'mapped' => false
             ])
             ->add('nomLieu', TextType::class, [
                 'label' => "Nom du lieu",
+                'required' => false,
                 'mapped' => false
             ])
             ->add('latitude', NumberType::class, [
                 'label' => "Latitude",
+                'required' => false,
                 'mapped' => false
             ])
             ->add('longitude', NumberType::class, [
                 'label' => "Longitude",
+                'required' => false,
                 'mapped' => false
             ])
             ->add('rue', TextType::class, [
                 'label' => "Rue",
+                'required' => false,
                 'mapped' => false
             ])
             ->add('lieu', ChoiceType::class, [
                 'label' => "Lieu",
+                'required' => false,
                 'mapped' => false
-            ]);
+            ])
+            ->add('choiceVille', HiddenType::class, [
+                'required' => false,
+                'mapped' => false
+            ])
+            ->add('choiceLieu', HiddenType::class, [
+                'required' => false,
+                'mapped' => false
+            ]);;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

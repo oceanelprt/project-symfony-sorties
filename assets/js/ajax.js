@@ -1,6 +1,5 @@
 import $ from 'jquery';
 
-
 $('#inscription').ready(function () {
 
     $('#inscription').click(function(){
