@@ -91,6 +91,7 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $sortie->setEtat($etat);
             $sortie->setCreateur($this->getUser());
+            $sortie->setArchive(0);
 
             //Si création d'une ville
             if ($data['choiceVille'] === "choiceNewVille") {
