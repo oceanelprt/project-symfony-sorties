@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.10.2",
+        "@sidp/konami-code": "^1.0.1",
         "bootstrap": "^5.0.0-beta3",
         "bootstrap-icons": "^1.6.1",
         "jquery": "^3.6.0"

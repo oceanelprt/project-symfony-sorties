@@ -909,6 +909,11 @@
   "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.10.2.tgz"
   "version" "2.10.2"
 
+"@sidp/konami-code@^1.0.1":
+  "integrity" "sha512-Rb3nQV9kvx+jUeqNd/QkYXG6DzLecc89owt5lZyAFhp2IyOrlG1e2xfoTONlB0hms/8ylskmYnlZZEbR7Ca2kA=="
+  "resolved" "https://registry.npmjs.org/@sidp/konami-code/-/konami-code-1.0.1.tgz"
+  "version" "1.0.1"
+
 "@stimulus/core@^2.0.0":
   "integrity" "sha512-ff70GafKtzc8zQ1/cG+UvL06GcifPWovf2wBEdjLMh9xO2GOYURO3y2RYgzIGYUIBefQwyfX2CLfJdZFJrEPTw=="
   "resolved" "https://registry.npmjs.org/@stimulus/core/-/core-2.0.0.tgz"

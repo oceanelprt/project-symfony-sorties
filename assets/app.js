@@ -1,3 +1,5 @@
+import konamiCode from '@sidp/konami-code';
+
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -10,18 +12,20 @@
 import $ from "jquery";
 
 window.$ = window.jQuery = require('jquery');
-
 // any CSS you import will output into a single css file (app.scss in this case)
+
 import './styles/app.scss';
 
 import { Tooltip, Toast, Popover } from "bootstrap";
 
 // start the Stimulus application
 //import './bootstrap';
-
 import './js/ajax.js';
+
 import './js/formSortie.js'
 
-
+konamiCode(() => {
+    /* do stuff */
+});
 
 
