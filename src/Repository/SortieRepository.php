@@ -38,11 +38,11 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('ville', $filtre['ville']);
         }
         if ($filtre['debut'] != null) {
-            $qb->andWhere($qb->expr()->gt('s.date',':dateDebut'))
+            $qb->andWhere($qb->expr()->gte('s.date',':dateDebut'))
                 ->setParameter('dateDebut', $filtre['debut']);
         }
         if ($filtre['fin'] != null) {
-            $qb->andWhere($qb->expr()->gt('s.date',':dateFin'))
+            $qb->andWhere($qb->expr()->lte('s.date',':dateFin'))
                 ->setParameter('dateFin', $filtre['fin']);
         }
         if ($isOrganisateur != null) {
@@ -71,7 +71,7 @@ class SortieRepository extends ServiceEntityRepository
             $qb->andWhere($qb->expr()->gt('s.date',':now'))
                 ->setParameter('now', $date->modify('-1 month'));
         }
-
+        $qb->orderBy('s.date');
         $qb =$qb->getQuery();
         return $qb->getResult();
     }
