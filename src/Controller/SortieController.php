@@ -11,6 +11,7 @@ use App\Form\FiltreType;
 use App\Form\SortieType;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -152,6 +153,7 @@ class SortieController extends AbstractController
 
     /**
      * @Route("sortie/{sortie}/editer", requirements={"sortie"="\d+"}, name="sortie_edit", methods={"GET","POST"})
+     * @Security("is_granted('sortie_edit', sortie)")
      */
     public function edit(Request $request, Sortie $sortie): Response
     {
