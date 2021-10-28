@@ -24,8 +24,8 @@ import './js/ajax.js';
 
 import './js/formSortie.js'
 
+
 konamiCode(() => {
-    /* do stuff */
+    $(".surprise").css("display", "block").addClass("show");
+    $(".modal-backdrop").addClass("show");
 });
-
-

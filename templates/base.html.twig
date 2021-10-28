@@ -26,6 +26,13 @@
     </head>
     <body>
         {% include 'navbar.html.twig' %}
+        <div class="modal fade surprise" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/xNjyG8S4_kI?controls=0&amp;start=49" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
         <br/>
         {% block body %}{% endblock %}
     </body>
