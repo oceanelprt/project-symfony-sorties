@@ -69,6 +69,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\Length(max=10, maxMessage="Le numéro de téléphone ne peut pas contenir plus de 10 caractères.")
      */
     private $telephone;
 
