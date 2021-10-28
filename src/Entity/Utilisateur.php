@@ -6,10 +6,11 @@ use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
@@ -48,16 +49,27 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, nullable=false)
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Le nom ne peut contenir que des lettres."
+     * )
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=180, nullable=false)
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Le prénom ne peut contenir que des lettres."
+     * )
      */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\Length(max=10, maxMessage="Le numéro de téléphone ne peut pas contenir plus de 10 caractères.")
      */
     private $telephone;
 
