@@ -1,5 +1,3 @@
-import konamiCode from '@sidp/konami-code';
-
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -23,9 +21,7 @@ import { Tooltip, Toast, Popover } from "bootstrap";
 import './js/ajax.js';
 
 import './js/formSortie.js'
+import './js/game.js'
 
 
-konamiCode(() => {
-    $(".surprise").css("display", "block").addClass("show");
-    $(".modal-backdrop").addClass("show");
-});
+

@@ -26,10 +26,32 @@
     </head>
     <body>
         {% include 'navbar.html.twig' %}
-        <div class="modal fade surprise" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+        <!-- Modal -->
+        <div class="modal fade surprise col-8" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                            <iframe width="560" height="315" src="https://www.youtube.com/embed/xNjyG8S4_kI?controls=0&amp;start=49" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="staticBackdropLabel">Une petite pause ?</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="game">
+                            <h5>Pierre, feuille, ciseaux, lézard, Spock</h5>
+                            <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Pierre_ciseaux_feuille_l%C3%A9zard_spock_aligned.svg/220px-Pierre_ciseaux_feuille_l%C3%A9zard_spock_aligned.svg.png" alt="Rock, Paper, Scissors, Lizard, Spock" />
+                            <div class="resultBox">
+                                <h5>Choice:</h5>
+                                <p>Choisissez-vous pierre, papier, ciseaux, lézard ou Spock ?</p>
+                                <div class="playButtons">
+                                    <button class="btn btn-lg btn-success m-1" id="pierre">pierre</button>
+                                    <button class="btn btn-lg btn-success m-1" id="papier">papier</button>
+                                    <button class="btn btn-lg btn-success m-1" id="ciseaux">ciseaux</button>
+                                    <button class="btn btn-lg btn-success m-1" id="lézard">lézard</button>
+                                    <button class="btn btn-lg btn-success m-1" id="spock">Spock</button>
+                                </div>
+                                <div class="result"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
