@@ -20,12 +20,16 @@
 
                     {% if is_granted('ROLE_ADMIN') %}
 
-                        <li class="nav-item active">
-                            <a class="nav-link" aria-current="page" href="#">Villes</a>
-                        </li>
-
-                        <li class="nav-item active">
-                            <a class="nav-link" aria-current="page" href="#">Sites</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+{#                                <a class="dropdown-item" href="{{ path('admin_lieux') }}">Gérer les lieux</a>#}
+{#                                <a class="dropdown-item" href="{{ path('admin_villes') }}">Gérer les villes</a>#}
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ path('admin') }}">Admin</a>
+                            </div>
                         </li>
 
                     {% endif %}
