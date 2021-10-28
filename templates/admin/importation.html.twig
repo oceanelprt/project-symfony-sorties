@@ -1,4 +1,11 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
+{% block configured_stylesheets %}
+    {{ encore_entry_link_tags('admin') }}
+{% endblock %}
+
+{% block configured_javascripts %}
+    {{ encore_entry_script_tags('admin') }}
+{% endblock %}
 
 {% block content %}
     <div class="container">
@@ -7,8 +14,18 @@
             {{ form_row(form.importation) }}
         <div class="col-md-1">
             {{ form_row(form.importer) }}
+{#            <button type='submit' class='btn btn-primary'>Importer</button>#}
         </div>
         {{ form_end(form) }}
+        <div class="loader">
+
+            <ul class="loading">
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+
+        </div>
         {% if isPost %}
         <div class="row">
             <div class="col align-self-center">

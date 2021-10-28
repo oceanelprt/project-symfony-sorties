@@ -44,7 +44,7 @@ class ImportationCsvType extends AbstractType
             ])
             ->add('importer', SubmitType::class, [
                 'attr' => [
-                    'class' => 'btn btn-primary'
+                    'class' => 'btn btn-primary',
                 ]
             ])
         ;

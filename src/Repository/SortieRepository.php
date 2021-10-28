@@ -61,7 +61,6 @@ class SortieRepository extends ServiceEntityRepository
             }
             $qb->setParameter('user', $userId);
         }
-
         if ($isPassee != null) {
             $dateLastMonth = clone $date;
             $qb->andWhere('s.date BETWEEN :from AND :to')
