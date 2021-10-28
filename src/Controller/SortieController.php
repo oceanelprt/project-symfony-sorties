@@ -192,7 +192,7 @@ class SortieController extends AbstractController
                 $lieu->setRue($data['rue']);
                 $lieu->setVille($ville);
 
-                $em->persist($ville);
+                $em->persist($lieu);
             } else { //Si choix d'un lieu
                 $lieu = $lieuRepository->find($data['lieu']);
             }

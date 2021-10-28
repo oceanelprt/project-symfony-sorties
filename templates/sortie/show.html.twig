@@ -40,11 +40,19 @@
                 </tr>
                 <tr>
                     <th>Nombre de places</th>
-                    <td>{{ sortie.nombrePlaces }}</td>
+                    <td>{{ sortie.nombrePlaces }} (nombre d'inscrits : {{ sortie.participants|length }})</td>
                 </tr>
                 <tr>
                     <th>Description</th>
                     <td>{{ sortie.description }}</td>
+                </tr>
+                <tr>
+                    <th>Ville</th>
+                    <td>{{ sortie.lieu.ville }} ({{ sortie.lieu.ville.codePostal }})</td>
+                </tr>
+                <tr>
+                    <th>Lieu</th>
+                    <td>{{ sortie.lieu }}, ({{ sortie.lieu.latitude }}, {{ sortie.lieu.longitude }}), rue : {{ sortie.lieu.rue }}</td>
                 </tr>
                 <tr>
                     <th>Créateur</th>
