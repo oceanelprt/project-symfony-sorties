@@ -67,7 +67,7 @@ class Sortie
     private $participants;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Lieu::class)
+     * @ORM\ManyToOne(targetEntity=Lieu::class, cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $lieu;
@@ -252,5 +252,8 @@ class Sortie
         $this->motifAnnulation = $motifAnnulation;
     }
 
-
+    public function __toString(): string
+    {
+        return $this->getNom();
+    }
 }

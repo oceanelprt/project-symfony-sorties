@@ -9,10 +9,68 @@
                 {{ form_row(form.duree) }}
                 {{ form_row(form.nombrePlaces) }}
                 {{ form_row(form.description) }}
-            </div>
-            <div class="col" style="text-align:right">
-                {{ form_row(form.lieu) }}
-            </div>
+                <p>Ville</p>
+                <div class="accordion" id="accordionVille">
+                    {{ form_row(form.choiceVille) }}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingNewVille">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNewVille" aria-expanded="true" aria-controls="collapseNewVille">
+                                Nouvelle ville...
+                            </button>
+                        </h2>
+                        <div id="collapseNewVille" class="accordion-collapse collapse" aria-labelledby="headingNewVille" data-bs-parent="#accordionVille">
+                            <div class="accordion-body">
+                                {{ form_row(form.nomVille) }}
+                                {{ form_row(form.codePostal) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <input type="hidden" id="choiceVille" value="">
+                        <h2 class="accordion-header" id="headingChoiceVille">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseChoiceVille" aria-expanded="false" aria-controls="collapseChoiceVille">
+                                Choisir une ville
+                            </button>
+                        </h2>
+                        <div id="collapseChoiceVille" class="accordion-collapse collapse" aria-expanded="false" aria-labelledby="headingChoiceVille" data-bs-parent="#accordionVille">
+                            <div class="accordion-body">
+                                {{ form_row(form.ville) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <p>Lieu</p>
+                <div class="accordion" id="accordionLieu">
+                    {{ form_row(form.choiceLieu) }}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingNewLieu">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNewLieu" aria-expanded="false" aria-controls="collapseNewLieu">
+                                Nouveau lieu...
+                            </button>
+                        </h2>
+                        <div id="collapseNewLieu" class="accordion-collapse collapse" aria-labelledby="headingNewLieu" aria-expanded="false" data-bs-parent="#accordionLieu">
+                            <div class="accordion-body">
+                                {{ form_row(form.nomLieu) }}
+                                {{ form_row(form.latitude) }}
+                                {{ form_row(form.longitude) }}
+                                {{ form_row(form.rue) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingChoiceLieu">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseChoiceLieu" aria-expanded="false" aria-controls="collapseChoiceLieu">
+                                Choisir un lieu déjà existant
+                            </button>
+                        </h2>
+                        <div id="collapseChoiceLieu" class="accordion-collapse collapse" aria-labelledby="headingChoiceLieu" data-bs-parent="#accordionLieu">
+                            <div class="accordion-body" style="display: none" id="divChoiceVille">
+                                {{ form_widget(form.lieu) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <button type="submit" class="btn btn-primary">Sauvegarde</button>
                 {{ form_end(form) }}

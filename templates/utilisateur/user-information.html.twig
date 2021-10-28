@@ -6,9 +6,15 @@
     </a>
     <div class="container">
         <div class="row">
+
+            <h1>{{ utilisateur.pseudo }}</h1>
+            {% if utilisateur.photo %}
+                <div class="col align-self-center">
+                    <img src="/photos/{{ utilisateur.photo }}" alt="Photo de {{ utilisateur.pseudo }}">
+                </div>
+            {% endif %}
             <div class="col align-self-center">
-                <h1>{{ utilisateur.pseudo }}</h1>
-                <br/>
+            <br/>
                 <table class="table table-bordered table-responsive">
                     <tbody>
                         <tr>

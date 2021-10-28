@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
+use App\Entity\Ville;
 use App\Form\FiltreType;
 use App\Form\SortieType;
+use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,25 +74,57 @@ class SortieController extends AbstractController
     public function new(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
+        $villeRepository = $this->getDoctrine()->getRepository(Ville::class);
+        $lieuRepository = $this->getDoctrine()->getRepository(Lieu::class);
+
         $etat = $em->getRepository(Etat::class)->findOneBy(['etat' => Etat::ETAT_EN_CREATION]);
+
+        $lieu = new Lieu();
+        $ville = new Ville();
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
+        $data = $request->request->get('sortie');
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $sortie->setEtat($etat);
             $sortie->setCreateur($this->getUser());
 
-            $sortie->setEtat($etat);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($sortie);
-            $entityManager->flush();
+            //Si création d'une ville
+            if ($data['choiceVille'] === "choiceNewVille") {
+                $ville->setCodePostal($data['codePostal']);
+                $ville->setNom($data['nomVille']);
+
+                $em->persist($ville);
+            } else { //Si choix d'une ville
+                $ville = $villeRepository->find($data['ville']);
+            }
+
+            //Si création d'un lieu
+            if ($data['choiceLieu'] === "choiceNewLieu") {
+                $lieu->setNom($data['nomLieu']);
+                $lieu->setLatitude($data['latitude']);
+                $lieu->setLatitude($data['latitude']);
+                $lieu->setLongitude($data['longitude']);
+                $lieu->setRue($data['rue']);
+                $lieu->setVille($ville);
+
+                $em->persist($ville);
+            } else { //Si choix d'un lieu
+                $lieu = $lieuRepository->find($data['lieu']);
+            }
+
+            $sortie->setLieu($lieu);
+
+            $em->persist($sortie);
+            $em->flush();
 
             return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('sortie/new.html.twig', [
-            'sortie' => $sortie,
-            'form' => $form,
+        return $this->render('sortie/new.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
@@ -120,16 +155,54 @@ class SortieController extends AbstractController
      */
     public function edit(Request $request, Sortie $sortie): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $lieuRepository = $em->getRepository(Lieu::class);
+        $villeRepository = $em->getRepository(Ville::class);
+
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
+        $lieu = new Lieu();
+        $ville = new Ville();
+
+        $data = $request->request->get('sortie');
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $sortie->setCreateur($this->getUser());
+
+            //Si création d'une ville
+            if ($data['choiceVille'] === "choiceNewVille") {
+                $ville->setCodePostal($data['codePostal']);
+                $ville->setNom($data['nomVille']);
+
+                $em->persist($ville);
+            } else { //Si choix d'une ville
+                $ville = $villeRepository->find($data['ville']);
+            }
+
+            //Si création d'un lieu
+            if ($data['choiceLieu'] === "choiceNewLieu") {
+                $lieu->setNom($data['nomLieu']);
+                $lieu->setLatitude($data['latitude']);
+                $lieu->setLatitude($data['latitude']);
+                $lieu->setLongitude($data['longitude']);
+                $lieu->setRue($data['rue']);
+                $lieu->setVille($ville);
+
+                $em->persist($ville);
+            } else { //Si choix d'un lieu
+                $lieu = $lieuRepository->find($data['lieu']);
+            }
+
+            $sortie->setLieu($lieu);
+
+            $em->persist($sortie);
+            $em->flush();
+
             return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('sortie/edit.html.twig', [
-            'sortie' => $sortie,
             'form' => $form,
         ]);
     }
