@@ -45,6 +45,7 @@ class AdminController extends AbstractDashboardController
                 $importationCsv->upload($importationFile);
 
                 $reader = $importationCsv->createReader();
+                sleep(3);
 
                 foreach ($reader as $row) {
                     if (!$importationCsv->addUserAndCity($row)){
