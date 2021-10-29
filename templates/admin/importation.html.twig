@@ -14,18 +14,12 @@
             {{ form_row(form.importation) }}
         <div class="col-md-1">
             {{ form_row(form.importer) }}
-{#            <button type='submit' class='btn btn-primary'>Importer</button>#}
         </div>
         {{ form_end(form) }}
-        <div class="loader">
-
-            <ul class="loading">
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-
-        </div>
+        <audio id="myMusic" src="/mp3/elevator.mp3" loop=""></audio>
+        <div>
+            <img class="justify-content-center" src="https://c.tenor.com/Nqprp3RBVCsAAAAd/911-los-angeles.gif" id="imgAttente" style="display: none" alt="">
+        <div class="col align-self-center">
         {% if isPost %}
         <div class="row">
             <div class="col align-self-center">
