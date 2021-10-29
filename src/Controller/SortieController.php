@@ -11,6 +11,7 @@ use App\Form\FiltreType;
 use App\Form\SortieType;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,6 +91,7 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $sortie->setEtat($etat);
             $sortie->setCreateur($this->getUser());
+            $sortie->setArchive(0);
 
             //Si création d'une ville
             if ($data['choiceVille'] === "choiceNewVille") {
@@ -152,6 +154,7 @@ class SortieController extends AbstractController
 
     /**
      * @Route("sortie/{sortie}/editer", requirements={"sortie"="\d+"}, name="sortie_edit", methods={"GET","POST"})
+     * @Security("is_granted('sortie_edit', sortie)")
      */
     public function edit(Request $request, Sortie $sortie): Response
     {
@@ -189,7 +192,7 @@ class SortieController extends AbstractController
                 $lieu->setRue($data['rue']);
                 $lieu->setVille($ville);
 
-                $em->persist($ville);
+                $em->persist($lieu);
             } else { //Si choix d'un lieu
                 $lieu = $lieuRepository->find($data['lieu']);
             }

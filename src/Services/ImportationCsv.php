@@ -74,7 +74,7 @@ class ImportationCsv
                     $this->passwordEncoder->hashPassword(
                         $utilisateur,
                         random_bytes(15)))
-                ->setIsExpired(0)
+                ->setIsExpired(false)
                 ->setEmail($row['email']);
 
             $this->em->persist($utilisateur);

@@ -12,6 +12,10 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+        <script src="js/bootstrap.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <link
@@ -22,6 +26,35 @@
     </head>
     <body>
         {% include 'navbar.html.twig' %}
+        <!-- Modal -->
+        <div class="modal fade surprise col-8" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="staticBackdropLabel">Une petite pause ?</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="game">
+                            <h5>Pierre, feuille, ciseaux, lézard, Spock</h5>
+                            <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Pierre_ciseaux_feuille_l%C3%A9zard_spock_aligned.svg/220px-Pierre_ciseaux_feuille_l%C3%A9zard_spock_aligned.svg.png" alt="Rock, Paper, Scissors, Lizard, Spock" />
+                            <div class="resultBox">
+                                <h5>Choice:</h5>
+                                <p>Choisissez-vous pierre, papier, ciseaux, lézard ou Spock ?</p>
+                                <div class="playButtons">
+                                    <button class="btn btn-lg btn-success m-1" id="pierre">pierre</button>
+                                    <button class="btn btn-lg btn-success m-1" id="papier">papier</button>
+                                    <button class="btn btn-lg btn-success m-1" id="ciseaux">ciseaux</button>
+                                    <button class="btn btn-lg btn-success m-1" id="lézard">lézard</button>
+                                    <button class="btn btn-lg btn-success m-1" id="spock">Spock</button>
+                                </div>
+                                <div class="result"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <br/>
         {% block body %}{% endblock %}
     </body>
